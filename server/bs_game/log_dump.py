@@ -1,0 +1,75 @@
+from bs_game.ConsoleColors import *
+from bs_game.log import *
+
+cc = ConsoleColors()
+
+def dumpGameInfo(_gameState, spacers = True):
+	_gameRules = _gameState._gameRules
+	if spacers: logI(f"{cc.sep}===== Game Info >>> ====={cc.NC}")
+	logI(f"Game ID: {cc.id}{_gameState.gameId}{cc.NC}")
+	logI(f"Board size: {_gameRules.boardSizeX}x{_gameRules.boardSizeY}{cc.NC}")
+	logI(f"Ships on board:{cc.NC} {_gameRules.countShip5} 5pin (Carrier), {_gameRules.countShip4} 4pin (Cruiser), {_gameRules.countShip3} 3pin (Submarine), {_gameRules.countShip2} 2pin (Frigate)")
+	logI(f"Player turn timeout:{cc.NC} {_gameRules.timeoutTurn} minutes")
+	logI(f"Player 1 ID: {cc.id}{_gameState.player1.Id}{cc.NC}")
+	logI(f"Player 2 ID: {cc.id}{_gameState.player2.Id}{cc.NC}")
+	logI(f"Game status: {_gameState.status}")
+	logI(f"Game result: {_gameState.result}")
+	if spacers: logI(f"{cc.sep}===== Game Info <<< ====={cc.NC}")
+
+def dumpArray2D(arr):
+	for row in arr:
+		logI(row)
+
+def dumpGamePlayers(_gameState, spacers = True):
+	if spacers: logI(f"{cc.sep}===== Game Players >>> ====={cc.NC}")
+	logI(f"Player 1 ID: {cc.id}{_gameState.player1.Id}{cc.NC}")
+	logI(f"Player 1 boardCrypt: {cc.data}{_gameState.player1.boardCrypt}{cc.NC}")
+	logI(f"Player 1 keyCrypt: {cc.secret}{_gameState.player1.keyCrypt}{cc.NC}")
+	logI(f"Player 2 ID: {cc.LightPurple}{_gameState.player2.Id}{cc.NC}")
+	logI(f"Player 2 boardCrypt: {cc.data}{_gameState.player2.boardCrypt}{cc.NC}")
+	logI(f"Player 2 keyCrypt: {cc.secret}{_gameState.player2.keyCrypt}{cc.NC}")
+	if spacers: logI(f"{cc.sep}===== Game Players <<< ====={cc.NC}")
+
+def dumpGameplayBoards(_gameState, spacers = True):
+	_gameRules = _gameState._gameRules
+
+	def formatLine(line):
+		res = str(line).replace(',', '').replace("0", "C0").replace("1", "C1").replace("2", "C2")
+		res = res.replace("C0", f"{cc.water}~{cc.NC}").replace("C1", f"{cc.miss}M{cc.NC}").replace("C2", f"{cc.hit}X{cc.NC}")
+		return res
+	
+	if spacers: logI(f"{cc.sep}===== Gameplay Boards >>> ====={cc.NC}")
+	
+	logI("Players 1 and 2 boards:")
+	for idy in range(_gameRules.boardSizeY):
+		rp1 = formatLine(_gameState.player1.board[idy])
+		rp2 = formatLine(_gameState.player2.board[idy])
+		logI(f"{rp1}    {rp2}")
+	
+	#logI("Player 1 board:")
+	#dumpArray2D(_gameState.player1.board)
+	#logI("Player 2 board:")
+	#dumpArray2D(_gameState.player2.board)
+	if spacers: logI(f"{cc.sep}===== Gameplay Boards <<< ====={cc.NC}")	
+
+def dumpGameplayMove(_gameState, idx):
+	idx = (len(_gameState.moveHistory) - 1) if idx == -1 else idx
+	if idx < 0: return
+	val = _gameState.moveHistory[idx]
+	action = f"was {cc.hit}HIT{cc.NC}    " if val.wasHit else f"was {cc.miss}missed{cc.NC} "
+	if idx ==0: action = "starts game"
+	logI(f"{cc.Brown}Turn {idx+1}:{cc.NC} Player {val.player} {action} and shoots at X={val.mx} Y={val.my}")
+
+def dumpGameplayMoves(_gameState, spacers = True):
+	if spacers: logI(f"{cc.sep}===== Gameplay Moves >>> ====={cc.NC}")
+	for idx, val in enumerate(_gameState.moveHistory):
+		dumpGameplayMove(idx)
+		#wasHit = f"{cc.hit}HIT   {cc.NC}" if val.wasHit else f"{cc.miss}missed{cc.NC}"
+		#logI(f"{idx}. player{val.player} was {wasHit} and shoots at X={val.mx} Y={val.my}")
+	if spacers: logI(f"{cc.sep}===== Gameplay Moves <<< ====={cc.NC}")
+
+def dumpAll(_gameState):
+	dumpGameInfo(_gameState)
+	dumpGamePlayers(_gameState)
+	dumpGameplayBoards(_gameState)
+	dumpGameplayMoves(_gameState)
