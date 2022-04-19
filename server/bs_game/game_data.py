@@ -88,10 +88,13 @@ class BSGameState:
 		if move.my < 0 or move.my >= self._gameRules.boardSizeY: return False
 		return True
 
+	def getLastMove(self):
+		return self.moveHistory[-1] if len(self.moveHistory) > 0 else None
+
 	def markLastMoveHit(self, playerTag, wasHit):
 		if wasHit == 1:
-			prev_move = self.moveHistory[-1] if len(self.moveHistory) > 0 else None
+			prev_move = self.getLastMove()
 			player = self.getPlayerByTag(playerTag)
 			if player is not None and prev_move is not None:
-				if self.isValidMove(prev_move) and prev_move.player != playerTag and player.board[prev_move.mx][prev_move.my] == 1:
-					player.board[prev_move.mx][prev_move.my] = 2	
+				if self.isValidMove(prev_move) and prev_move.player != playerTag and player.board[prev_move.my][prev_move.mx] == 1:
+					player.board[prev_move.my][prev_move.mx] = 2

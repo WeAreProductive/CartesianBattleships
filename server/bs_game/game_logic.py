@@ -36,12 +36,12 @@ def processPlayerCommand(_gameState, cmd):
 			move = BSGameMove(cmd.playerTag, args[0], args[1], args[2])
 			if not _gameState.isValidMove(move):
 				raise(AdvanceProcessError(cmd.playerTag, "move:invalid"))
-			if opponent.board[move.mx][move.my] != 0:
+			if opponent.board[move.my][move.mx] != 0:
 				raise(AdvanceProcessError(cmd.playerTag, "move:already-played"))
-			if _gameState.isValidMove(move) and opponent.board[move.mx][move.my] == 0: # check if move is valid and also not repeating already played move
+			if _gameState.isValidMove(move) and opponent.board[move.my][move.mx] == 0: # check if move is valid and also not repeating already played move
 				_gameState.markLastMoveHit(cmd.playerTag, move.wasHit) # mark previous move on player's board if it was hit
 				_gameState.moveHistory.append(move)		# add move to history
-				opponent.board[move.mx][move.my] = 1	# mark move on opponent's board
+				opponent.board[move.my][move.mx] = 1	# mark move on opponent's board
 				_gameState.swithcTurn() # switch player turn
 				# prepare response
 				responsePayload = f"move p{cmd.playerTag} {move.wasHit} {move.mx} {move.my}"
@@ -76,4 +76,3 @@ def processPlayerCommand(_gameState, cmd):
 		logE(str(ex))
 
 	return responsePayload
-
