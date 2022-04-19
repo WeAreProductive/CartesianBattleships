@@ -32,18 +32,31 @@ def dumpGamePlayers(_gameState, spacers = True):
 
 def dumpGameplayBoards(_gameState, spacers = True):
 	_gameRules = _gameState._gameRules
+	
+	def applyLastMove(playerTag, idy, line):
+		last_move = _gameState.getLastMove()
+		#return line
+		if last_move is None or last_move.player == playerTag or last_move.my != idy or _gameState.status >= 3:
+			return line		
+		res = [ 0 for ix in range(len(line)) ]
+		for idx in range(len(res)):
+			res[idx] = 3 if idx == last_move.mx else line[idx]
+		return res
 
 	def formatLine(line):
-		res = str(line).replace(',', '').replace("0", "C0").replace("1", "C1").replace("2", "C2")
-		res = res.replace("C0", f"{cc.water}~{cc.NC}").replace("C1", f"{cc.miss}M{cc.NC}").replace("C2", f"{cc.hit}X{cc.NC}")
-		return res
+		return str(line)\
+			.replace(',', '').replace("0", "C0").replace("1", "C1").replace("2", "C2").replace("3", "C3")\
+			.replace("C0", f"{cc.water}~{cc.NC}")\
+			.replace("C1", f"{cc.miss}M{cc.NC}")\
+			.replace("C2", f"{cc.hit}X{cc.NC}")\
+			.replace("C3", f"{cc.shoot}*{cc.NC}")
 	
 	if spacers: logI(f"{cc.sep}===== Gameplay Boards >>> ====={cc.NC}")
 	
 	logI("Players 1 and 2 boards:")
 	for idy in range(_gameRules.boardSizeY):
-		rp1 = formatLine(_gameState.player1.board[idy])
-		rp2 = formatLine(_gameState.player2.board[idy])
+		rp1 = formatLine(applyLastMove(1, idy, _gameState.player1.board[idy]))
+		rp2 = formatLine(applyLastMove(2, idy, _gameState.player2.board[idy]))
 		logI(f"{rp1}    {rp2}")
 	
 	#logI("Player 1 board:")

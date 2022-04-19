@@ -32,3 +32,4 @@ class ConsoleColors:
 	water = Blue
 	miss = LightCyan
 	hit = LightRed
+	shoot = "\033[1;30;103m"
