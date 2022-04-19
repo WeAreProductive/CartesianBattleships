@@ -22,6 +22,7 @@ class ConsoleColors:
 	id = LightPurple
 	data = LightGray
 	secret = DarkGray
+	sender = LightBlue
 	msg_req = LightGreen
 	res_error = "\033[0;91m"
 	res_ok = Yellow

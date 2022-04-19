@@ -38,13 +38,26 @@ cc = ConsoleColors()
 
 _gameRules = BSGameRules()
 _gameState = BSGameState(_gameRules, str(environ.get("PCBS_GAME_ID")))
+#_gameState.addPlayer(environ.get("CBS_USER_ID_1"))
+#_gameState.addPlayer(environ.get("CBS_USER_ID_2"))
+_gameState.addPlayer("111")
+_gameState.addPlayer("222")
 
 
-def processAdvance(payload):
+def processAdvance(body):
+	try:
+		payload = convertAsciiByteTextToString(body["payload"])
+	except:
+		payload = ""
+	try:
+		sender = str(body["metadata"]["msg_sender"])
+	except:
+		sender = ""
+
 	responsePayload = None
-	cmd = Command(payload)
+	cmd = Command(_gameState.getPlayerTagById(sender), payload)
 	if cmd.isSys():
-		responsePayload = processSystemCommand(_gameState, cmd)
+		responsePayload = processSystemCommand(_gameState, cmd.cmdArgs)
 	else:
 		responsePayload = processPlayerCommand(_gameState, cmd)	
 		dumpPlayerMsg(_gameState, cmd, responsePayload)		
@@ -55,9 +68,12 @@ dumpGameInfo(_gameState)
 	
 
 def test1():
-	def send(cmd):
+	def send(playerTag, payload):
 		logI("")
-		response = processAdvance(cmd)
+		player = _gameState.getPlayerByTag(playerTag)
+		plaeyerId = player.Id if player is not None else ""
+		body = { "metadata": { "msg_sender": plaeyerId }, "payload": convertStringToAsciiByteText(payload) }
+		response = processAdvance(body)
 		#dumpPlayerMsg(_gameState, cmd, response)
 		
 		#clrResponse = (f"{cc.Yellow}" if not response.startswith("error") else f"{cc.LightRed}") if response is not None else ""
@@ -67,39 +83,42 @@ def test1():
 		##dumpGameplayMoves(_gameState)
 
 		
-	send("p1 b: xxx123")
-	send("p1 b: xxx123")
-	send("p2 b: ccc123")
-	send("p2 b: ccc123")
+	send(1, "b: xxx123")
+	send(1, "b: xxx123")
+	send(2, "b: ccc123")
+	send(2, "b: ccc123")
 
 
-	#send("p3 m: 0 1 1")
+	#send(3, "p3 m: 0 1 1")
 	
-	#send("p1 x: xxx")
+	#send(1, "p1 x: xxx")
 	
-	send("p1 m: 0 1 1")
-	send("p1 m: 0 1 0")
-	send("p2 m: 1 2 2")
-	send("p1 m: 0 3 3")
-	send("p2 m: 0 0 0")
-	send("p1 m: 1 4 4")
+
+	send(1, "m: 0 1 1")
+	send(1, "m: 0 1 0")
+	send(2, "m: 1 2 2")
+	send(1, "m: 0 3 3")
+	send(2, "m: 0 0 0")
+	send(1, "m: 0 3 4")
+	send(2, "m: 0 0 1")
+	send(1, "m: 1 4 4")
 	
 	#dumpGameplayMoves(_gameState)
 	
-	#send("p1 e: rrr111")
-	#send("p1 e: rrr111")
+	#send(1, "e: rrr111")
+	#send(1, "e: rrr111")
 
-	send("p2 e: rrr111")
-	#send("p2 e: rrr111")
+	send(2, "e: rrr111")
+	#send(2, "e: rrr111")
 	#dumpGamePlayers(_gameState)
-	send("p1 e: rrr111")
-	#send("p1 e: rrr111")
+	send(1, "e: rrr111")
+	#send(1, "e: rrr111")
 	#dumpGamePlayers(_gameState)
 
 	#logI(f">>>>>>>>>> player turn {_gameState.status}")
-	#processAdvance("p2 m: 0 4 4")
+	#processAdvance(2, "m: 0 4 4")
 	#dumpGameplayBoards(_gameState)
-	
+
 
 
 test1()
@@ -127,7 +146,7 @@ def advance():
 	logI(payload)
 	logI(f"Sender: {sender}")
 	
-	responsePayload = processAdvance(payload)
+	responsePayload = processAdvance(body)
 	if responsePayload is not None:
 		logI("Adding notice")
 		response = requests.post(dispatcher_url + "/notice", json={"payload": convertStringToAsciiByteText(responsePayload)})

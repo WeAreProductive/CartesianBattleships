@@ -11,8 +11,8 @@ def processSystemCommand(_gameState, cmd):
 		dumpGameplayMoves(_gameState)
 	if (cmd == "dump-all"):
 		dumpAll()
-	if (cmd == "reset-game"):
-		_gameState.reset()
+	#if (cmd == "reset-game"):
+	#	_gameState.reset()
 		#_gameState = BSGameState(_gameState)
 	#if (cmd == "quit"):
 	#	logI("Shutdown!")

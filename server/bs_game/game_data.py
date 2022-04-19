@@ -42,14 +42,14 @@ class BSGameState:
 	def __init__(self, _gameRules, gameId):
 		self._gameRules = _gameRules
 		self.gameId = str(gameId)
-		self.reset()
-	
-	def reset(self):
-		self.player1 = BSPlayer(self._gameRules, environ.get("CBS_USER_ID_1"))
-		self.player2 = BSPlayer(self._gameRules, environ.get("CBS_USER_ID_2"))
-		self.moveHistory = []
-		self.status = 0
-		self.result = 0
+
+	def addPlayer(self, id):
+		if self.player1 is None:
+			self.player1 = BSPlayer(self._gameRules, id)
+			return
+		if self.player2 is None:
+			self.player2 = BSPlayer(self._gameRules, id)
+			return
 	
 	def startGame(self):
 		if self.status == 0:
@@ -72,6 +72,11 @@ class BSGameState:
 			return self.player1
 		if playerTag == 2:
 			return self.player2
+	
+	def getPlayerTagById(self, id):
+		if self.player1.Id == id: return 1
+		if self.player2.Id == id: return 2
+		return 0
 	
 	def getOpponentTag(self, player):
 		return 2 if (player == 1) else 1
