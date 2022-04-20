@@ -1,4 +1,4 @@
-from bs_game.ConsoleColors import *
+from bs_game.console import *
 from bs_game.log import *
 from bs_game.log_dump import *
 

@@ -17,7 +17,7 @@ import requests
 from flask import Flask, request
 
 from bs_game.utils import *
-from bs_game.ConsoleColors import *
+from bs_game.console import *
 from bs_game.log import *
 from bs_game.log_dump import *
 from bs_game.log_flow import *
@@ -51,7 +51,7 @@ _gameState.addPlayer("0x70997970C51812dc3A010C7d01b50e0d17dc79C8")
 
 dumpGameInfo(_gameState)
 
-#BSTest(_gameState, _gameHandler).run()
+BSTest(_gameState, _gameHandler).run()
 
 
 
