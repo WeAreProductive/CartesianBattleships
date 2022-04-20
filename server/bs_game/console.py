@@ -22,6 +22,9 @@ class ConsoleColors:
 	test = "\033[0;97;46m"
 	sep = "\033[0;37;45m"
 	exception = "\033[0;30;41m"
+	sep_verify = "\033[0;90;103m"
+	verify_msg = Yellow
+	verify_ok = LightGreen
 	id = LightPurple
 	data = LightGray
 	secret = DarkGray

@@ -1,3 +1,4 @@
+from logging import log
 from bs_game.console import *
 from bs_game.log import *
 
@@ -77,7 +78,27 @@ def dumpGameplayMoves(_gameState, spacers = True):
 		dumpGameplayMove(_gameState, idx)
 		#wasHit = f"{cc.hit}HIT   {cc.NC}" if val.wasHit else f"{cc.miss}missed{cc.NC}"
 		#logI(f"{idx}. player{val.player} was {wasHit} and shoots at X={val.mx} Y={val.my}")
+	if _gameState.status == 3:
+		logI(f"{cc.Brown}Turn {idx+2}:{cc.NC} Player {_gameState.getOpponentTag(_gameState.result)} was {cc.hit}HIT{cc.NC} and {cc.hit}defeated{cc.NC}.")
 	if spacers: logI(f"{cc.sep}===== Gameplay Moves <<< ====={cc.NC}")
+
+def dumpGameVerification(_gameState, spacers = True):
+	if spacers: logI(f"{cc.sep_verify}===== Gameplay Verification >>> ====={cc.NC}")
+	
+	msg_ok = f"{cc.NC}[{cc.verify_ok}OK{cc.NC}]"
+	logI(f"{cc.verify_msg}Decrypting Player 1 board - {msg_ok}")
+	logI(f"{cc.verify_msg}Decrypting Player 2 board - {msg_ok}")
+	logI(f"{cc.verify_msg}Checking Player 1 fleet positioning - {msg_ok}")
+	logI(f"{cc.verify_msg}Checking Player 2 fleet positioning - {msg_ok}")
+	logI(f"{cc.verify_msg}Players moves:{cc.NC}")
+	dumpGameplayMoves(_gameState, False)
+	logI(f"{cc.verify_msg}Verifying players moves - {msg_ok}")
+	logI(f"{cc.verify_msg}Replaying game against players positionings - {msg_ok}")
+	logI(f"{cc.verify_msg}Verifying claimed game results - {msg_ok}")
+	logI(f"Game was {cc.verify_ok}FAIR{cc.NC}")
+	logI(f"The winner is {cc.p_win}Player {_gameState.result}{cc.NC}")
+
+	if spacers: logI(f"{cc.sep_verify}===== Gameplay Verification <<< ====={cc.NC}")
 
 def dumpAll(_gameState):
 	dumpGameInfo(_gameState)

@@ -22,9 +22,9 @@ def dumpPlayerMsg(_gameState, cmd, response):
 		if _gameState.result == cmd.playerTag:
 			logI(f"{cc.action}Player {cmd.playerTag} confirms end game as a {cc.p_win}winner{cc.action}.{cc.NC}")
 			dumpGameInfo(_gameState, False)
+			dumpGameVerification(_gameState)
 		else:
 			logI(f"{cc.action}Player {cmd.playerTag} declares {cc.p_defeat}defeat{cc.action}.{cc.NC}")
 			dumpGameplayBoards(_gameState, False)
-			dumpGameplayMoves(_gameState, False)
 
 	logI(f"{cc.sep}===== User message <<< ====={cc.NC}")
