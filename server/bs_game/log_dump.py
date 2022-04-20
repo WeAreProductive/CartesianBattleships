@@ -74,7 +74,7 @@ def dumpGameplayMove(_gameState, idx):
 def dumpGameplayMoves(_gameState, spacers = True):
 	if spacers: logI(f"{cc.sep}===== Gameplay Moves >>> ====={cc.NC}")
 	for idx, val in enumerate(_gameState.moveHistory):
-		dumpGameplayMove(idx)
+		dumpGameplayMove(_gameState, idx)
 		#wasHit = f"{cc.hit}HIT   {cc.NC}" if val.wasHit else f"{cc.miss}missed{cc.NC}"
 		#logI(f"{idx}. player{val.player} was {wasHit} and shoots at X={val.mx} Y={val.my}")
 	if spacers: logI(f"{cc.sep}===== Gameplay Moves <<< ====={cc.NC}")
