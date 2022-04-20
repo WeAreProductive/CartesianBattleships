@@ -54,60 +54,28 @@ dumpGameInfo(_gameState)
 BSTest(_gameState, _gameHandler).run()
 
 
-
 @app.route("/advance", methods=["POST"])
 def advance():
 	body = request.get_json()
-	logI(f"Received advance request body {body}")
+	logI(f"{cc.rups_msg}Received advance request body {cc.rups_val}{body}{cc.NC}")
 
-	#logI("Game ID: " + str(cs_game_id))
-	#logI(f"Game ID: {_gameState.gameId}")
-	
-
-	logI(body["payload"])
-	#logI(str(body["payload"]))
-	#logI(str(body["payload"]).replace("0x", ""))
-	#logI(bytearray.fromhex(str(body["payload"]).replace("0x", "")).decode())
-	payload = convertAsciiByteTextToString(body["payload"])
 	try:
-		sender = str(body["metadata"]["msg_sender"])
-	except:
-		sender = "error"
-	logI(payload)
-	logI(f"Sender: {sender}")
-	
-	responsePayload = _gameHandler.processAdvance(_gameState, body)
+		responsePayload = _gameHandler.processAdvance(_gameState, body)
+	except Exception as ex:
+		logEX(ex)
+		responsePayload = ""
 	if responsePayload is not None:
-		logI("Adding notice")
 		response = requests.post(dispatcher_url + "/notice", json={"payload": convertStringToAsciiByteText(responsePayload)})
-		logI(f"Received notice status {response.status_code} body {response.content}")	
+		logI(f"{cc.rups_msg}Added notice: status {cc.rups_val}{response.status_code}{cc.NC} body {cc.rups_val}{response.content}{cc.NC}")	
 	else:
-		logI("Irrelevant message. Do not add notice.")
-	
+		logI(f"{cc.rups_msg}Irrelevant message. Do not add notice.{cc.NC}")
 
-	#if (payload.startswith("m:")):
-	#	if _gameState.status != 1:
-	#		_gameState.status = 1
-	#	else:
-	#		_gameState.status = 2
-	#	
-	#	logI("status: " + str(_gameState.status))
-	#		
-	#	logI("Adding notice")
-	#	response = requests.post(dispatcher_url + "/notice", json={"payload": body["payload"]})
-	#	logI(f"Received notice status {response.status_code} body {response.content}")
-	#else:
-	#	logI("Invalid message! Do not add notice!")
-
-
-	logI("Finishing")
 	response = requests.post(dispatcher_url + "/finish", json={"status": "accept"})
-	logI(f"Received finish status {response.status_code}")
+	logI(f"{cc.rups_msg}Received finish: status {cc.rups_val}{response.status_code}{cc.NC}")
 	return "", 202
 
 
 @app.route("/inspect/<payload>", methods=["GET"])
 def inspect(payload):
-	logI(f"Received inspect request payload {payload}")
+	logI(f"{cc.rups_msg}Received inspect request: payload {payload}{cc.NC}")
 	return {"reports": [{"payload": payload}]}, 200
-
