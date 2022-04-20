@@ -21,7 +21,7 @@ class BSGameHandler:
 		if cmd.isSys():
 			responsePayload = self.processSystemCommand(_gameState, cmd.cmdArgs)
 		else:
-			responsePayload = processPlayerCommand(_gameState, cmd)	
+			responsePayload = BSGameLogic(_gameState).processPlayerCommand(cmd)	
 			dumpPlayerMsg(_gameState, cmd, responsePayload)		
 		return responsePayload
 

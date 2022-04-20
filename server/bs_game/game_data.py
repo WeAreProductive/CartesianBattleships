@@ -51,22 +51,6 @@ class BSGameState:
 			self.player2 = BSPlayer(self._gameRules, id)
 			return
 	
-	def startGame(self):
-		if self.status == 0:
-			self.status = 1 # strat with giving turn to player 1
-			
-	def endGame(self, playerTag):
-		if self.status == 1 or self.status == 2:
-			self.status = 3
-		if playerTag == 1 or playerTag == 2:
-			self.result = playerTag
-	
-	def swithcTurn(self):
-		if self.status == 1:
-			self.status = 2
-		elif self.status == 2:
-			self.status = 1
-	
 	def getPlayerByTag(self, playerTag):
 		if playerTag == 1:
 			return self.player1
@@ -80,21 +64,6 @@ class BSGameState:
 	
 	def getOpponentTag(self, player):
 		return 2 if (player == 1) else 1
-	
-	def isValidMove(self, move):
-		if move is not None and isinstance(move, BSGameMove) is BSGameMove: return False
-		if move.wasHit != 0 and move.wasHit !=1: return False
-		if move.mx < 0 or move.mx >= self._gameRules.boardSizeX: return False
-		if move.my < 0 or move.my >= self._gameRules.boardSizeY: return False
-		return True
 
 	def getLastMove(self):
 		return self.moveHistory[-1] if len(self.moveHistory) > 0 else None
-
-	def markLastMoveHit(self, playerTag, wasHit):
-		if wasHit == 1:
-			prev_move = self.getLastMove()
-			player = self.getPlayerByTag(playerTag)
-			if player is not None and prev_move is not None:
-				if self.isValidMove(prev_move) and prev_move.player != playerTag and player.board[prev_move.my][prev_move.mx] == 1:
-					player.board[prev_move.my][prev_move.mx] = 2
