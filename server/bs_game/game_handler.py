@@ -26,7 +26,7 @@ class BSGameHandler:
 		return responsePayload
 
 
-	def processSystemCommand(_gameState, cmd):
+	def processSystemCommand(self, _gameState, cmd):
 		if (cmd == "dump-info"):
 			dumpGameInfo(_gameState)
 		if (cmd == "dump-players"):
@@ -36,7 +36,7 @@ class BSGameHandler:
 		if (cmd == "dump-moves"):
 			dumpGameplayMoves(_gameState)
 		if (cmd == "dump-all"):
-			dumpAll()
+			dumpAll(_gameState)
 		#if (cmd == "reset-game"):
 		#	_gameState.reset()
 			#_gameState = BSGameState(_gameState)
