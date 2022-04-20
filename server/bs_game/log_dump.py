@@ -1,8 +1,6 @@
 from bs_game.console import *
 from bs_game.log import *
 
-cc = ConsoleColors()
-
 def dumpGameInfo(_gameState, spacers = True):
 	_gameRules = _gameState._gameRules
 	if spacers: logI(f"{cc.sep}===== Game Info >>> ====={cc.NC}")

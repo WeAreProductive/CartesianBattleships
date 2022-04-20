@@ -2,8 +2,6 @@ from bs_game.console import *
 from bs_game.log import *
 from bs_game.log_dump import *
 
-cc = ConsoleColors()
-
 def dumpPlayerMsg(_gameState, cmd, response):
 	logI(f"{cc.sep}===== User message >>> ====={cc.NC}")
 	clrResponse = (f"{cc.res_ok}" if not response.startswith("error") else f"{cc.res_error}") if response is not None else ""

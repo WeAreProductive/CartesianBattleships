@@ -1,6 +1,5 @@
 from bs_game.console import *
-
-cc = ConsoleColors()
+import traceback
 
 #__logger = None
 
@@ -12,6 +11,13 @@ def logI(msg):
 	global __logger
 	__logger.info(msg)
 
-def logE(msg):
+def logE(ex):
 	global __logger
-	__logger.error(f"{cc.exception}Exception: {str(msg)}{cc.NC}")
+	__logger.error(f"{cc.exception}Exception: {str(ex)}{cc.NC}")
+
+def logEX(ex):
+	global __logger
+	traceback_str = ''.join(traceback.format_tb(ex.__traceback__))
+	__logger.error(f"{cc.exception}Exception: {str(ex)}{cc.NC}")
+	__logger.error(f"{cc.exception}Traceback: {traceback_str}{cc.NC}")
+ 

@@ -17,6 +17,8 @@ class ConsoleColors:
 	LightCyan    = "\033[1;36m"
 	White        = "\033[1;37m"
 	# game specific
+	rups_msg = "\033[0;37;44m"
+	rups_val = "\033[1;97;44m"
 	sep = "\033[0;37;45m"
 	exception = "\033[0;30;41m"
 	id = LightPurple
@@ -33,3 +35,5 @@ class ConsoleColors:
 	miss = LightCyan
 	hit = LightRed
 	shoot = "\033[1;30;103m"
+
+cc = ConsoleColors()

@@ -110,6 +110,6 @@ class BSGameLogic:
 			responsePayload = err.toText()
 		except Exception as ex:
 			responsePayload = "error internal"
-			logE(str(ex))
+			logE(ex)
 
 		return responsePayload
