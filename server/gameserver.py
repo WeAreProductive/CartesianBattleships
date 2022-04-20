@@ -51,11 +51,13 @@ _gameState.addPlayer("0x70997970C51812dc3A010C7d01b50e0d17dc79C8")
 
 dumpGameInfo(_gameState)
 
-BSTest(_gameState, _gameHandler).run()
+if environ.get("TEST") == "1":
+	BSTest(_gameState, _gameHandler).run()
 
 
 @app.route("/advance", methods=["POST"])
 def advance():
+	logI("")
 	body = request.get_json()
 	logI(f"{cc.rups_msg}Received advance request body {cc.rups_val}{body}{cc.NC}")
 
@@ -66,7 +68,7 @@ def advance():
 		responsePayload = ""
 	if responsePayload is not None:
 		response = requests.post(dispatcher_url + "/notice", json={"payload": convertStringToAsciiByteText(responsePayload)})
-		logI(f"{cc.rups_msg}Added notice: status {cc.rups_val}{response.status_code}{cc.NC} body {cc.rups_val}{response.content}{cc.NC}")	
+		logI(f"{cc.rups_msg}Added notice: status {cc.rups_val}{response.status_code}{cc.rups_msg} body {cc.rups_val}{response.content}{cc.NC}")	
 	else:
 		logI(f"{cc.rups_msg}Irrelevant message. Do not add notice.{cc.NC}")
 
