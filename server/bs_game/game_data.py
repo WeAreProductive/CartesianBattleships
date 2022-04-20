@@ -18,7 +18,7 @@ class BSPlayer:
 	boardCrypt = None
 	board = None
 	def __init__(self, _gameRules, Id):
-		self.Id = Id
+		self.Id = str(Id).lower()
 		self.board = [ [ 0 for ix in range(_gameRules.boardSizeX) ] for iy in range(_gameRules.boardSizeY) ]
 
 class BSGameMove:
