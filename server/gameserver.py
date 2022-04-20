@@ -10,7 +10,6 @@
 # CONDITIONS OF ANY KIND, either express or implied. See the License for the
 # specific language governing permissions and limitations under the License.
 
-import os
 from os import environ
 import logging
 import requests
@@ -19,48 +18,41 @@ from flask import Flask, request
 from bs_game.utils import *
 from bs_game.console import *
 from bs_game.log import *
-from bs_game.log_dump import *
-from bs_game.log_flow import *
 from bs_game.game_data import *
 from bs_game.game_logic import *
 from bs_game.game_manage import *
 from bs_game.game_handler import *
-from bs_game.errors import *
 from bs_game.test import *
 
+# Setup Flask app
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
-
-dispatcher_url = environ["HTTP_DISPATCHER_URL"]
-app.logger.info(f"HTTP dispatcher url is {dispatcher_url}")
-
 setLogger(app.logger)
-cc = ConsoleColors()
+# Setup Dispatcher
+dispatcher_url = environ["HTTP_DISPATCHER_URL"]
+logI(f"HTTP dispatcher url is {dispatcher_url}")
 
-_gameRules = BSGameRules()
-_gameState = BSGameState(_gameRules, str(environ.get("PCBS_GAME_ID")))
+# Init game
+_gameState = BSGameState(BSGameRules(), str(environ.get("PCBS_GAME_ID")))
 _gameHandler = BSGameHandler()
-#_gameState.addPlayer(environ.get("CBS_USER_ID_1"))
-#_gameState.addPlayer(environ.get("CBS_USER_ID_2"))
-#_gameState.addPlayer("111")
-#_gameState.addPlayer("222")
+# Join players
 _gameState.addPlayer("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
 _gameState.addPlayer("0x70997970C51812dc3A010C7d01b50e0d17dc79C8")
 
-
-
 dumpGameInfo(_gameState)
 
+# Run tests
 if environ.get("TEST") == "1":
 	BSTest(_gameState, _gameHandler).run()
 
-
+# Setup route for handling input
 @app.route("/advance", methods=["POST"])
 def advance():
+    # Get message body
 	logI("")
 	body = request.get_json()
 	logI(f"{cc.rups_msg}Received advance request body {cc.rups_val}{body}{cc.NC}")
-
+	# Process notice
 	try:
 		responsePayload = _gameHandler.processAdvance(_gameState, body)
 	except Exception as ex:
@@ -71,12 +63,12 @@ def advance():
 		logI(f"{cc.rups_msg}Added notice: status {cc.rups_val}{response.status_code}{cc.rups_msg} body {cc.rups_val}{response.content}{cc.NC}")	
 	else:
 		logI(f"{cc.rups_msg}Irrelevant message. Do not add notice.{cc.NC}")
-
+	# Finalize
 	response = requests.post(dispatcher_url + "/finish", json={"status": "accept"})
 	logI(f"{cc.rups_msg}Received finish: status {cc.rups_val}{response.status_code}{cc.NC}")
 	return "", 202
 
-
+# Setup route for handling inspection
 @app.route("/inspect/<payload>", methods=["GET"])
 def inspect(payload):
 	logI(f"{cc.rups_msg}Received inspect request: payload {payload}{cc.NC}")
