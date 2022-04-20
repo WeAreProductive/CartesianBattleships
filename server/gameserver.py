@@ -24,8 +24,9 @@ from bs_game.log_flow import *
 from bs_game.game_data import *
 from bs_game.game_logic import *
 from bs_game.game_manage import *
+from bs_game.game_handler import *
 from bs_game.errors import *
-from bs_game.protocol_text import *
+from bs_game.test import *
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -38,91 +39,20 @@ cc = ConsoleColors()
 
 _gameRules = BSGameRules()
 _gameState = BSGameState(_gameRules, str(environ.get("PCBS_GAME_ID")))
+_gameHandler = BSGameHandler()
 #_gameState.addPlayer(environ.get("CBS_USER_ID_1"))
 #_gameState.addPlayer(environ.get("CBS_USER_ID_2"))
-_gameState.addPlayer("111")
-_gameState.addPlayer("222")
+#_gameState.addPlayer("111")
+#_gameState.addPlayer("222")
+_gameState.addPlayer("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
+_gameState.addPlayer("0x70997970C51812dc3A010C7d01b50e0d17dc79C8")
 
-
-def processAdvance(body):
-	try:
-		payload = convertAsciiByteTextToString(body["payload"])
-	except:
-		payload = ""
-	try:
-		sender = str(body["metadata"]["msg_sender"])
-	except:
-		sender = ""
-
-	responsePayload = None
-	cmd = Command(_gameState.getPlayerTagById(sender), payload)
-	if cmd.isSys():
-		responsePayload = processSystemCommand(_gameState, cmd.cmdArgs)
-	else:
-		responsePayload = processPlayerCommand(_gameState, cmd)	
-		dumpPlayerMsg(_gameState, cmd, responsePayload)		
-	return responsePayload
 
 
 dumpGameInfo(_gameState)
-	
 
-def test1():
-	def send(playerTag, payload):
-		logI("")
-		player = _gameState.getPlayerByTag(playerTag)
-		plaeyerId = player.Id if player is not None else ""
-		body = { "metadata": { "msg_sender": plaeyerId }, "payload": convertStringToAsciiByteText(payload) }
-		response = processAdvance(body)
-		#dumpPlayerMsg(_gameState, cmd, response)
-		
-		#clrResponse = (f"{cc.Yellow}" if not response.startswith("error") else f"{cc.LightRed}") if response is not None else ""
-		#logI(f">>> {cc.LightGreen}{cmd}{cc.NC} >>> {clrResponse}{response}{cc.NC}")
-		#dumpGameplayMove(_gameState, -1)
-		#dumpGameplayBoards(_gameState)
-		##dumpGameplayMoves(_gameState)
+#BSTest(_gameState, _gameHandler).run()
 
-		
-	send(1, "b: xxx123")
-	send(1, "b: xxx123")
-	send(2, "b: ccc123")
-	send(2, "b: ccc123")
-
-
-	#send(3, "p3 m: 0 1 1")
-	
-	#send(1, "p1 x: xxx")
-	
-
-	send(1, "m: 0 1 1")
-	send(1, "m: 0 1 0")
-	send(2, "m: 1 2 2")
-	send(1, "m: 0 3 3")
-	send(2, "m: 0 0 0")
-	send(1, "m: 0 3 4")
-	send(2, "m: 0 0 1")
-	send(1, "m: 1 4 4")
-	
-	#dumpGameplayMoves(_gameState)
-	
-	#send(1, "e: rrr111")
-	#send(1, "e: rrr111")
-
-	send(2, "e: rrr111")
-	#send(2, "e: rrr111")
-	#dumpGamePlayers(_gameState)
-	send(1, "e: rrr111")
-	#send(1, "e: rrr111")
-	#dumpGamePlayers(_gameState)
-
-	#logI(f">>>>>>>>>> player turn {_gameState.status}")
-	#processAdvance(2, "m: 0 4 4")
-	#dumpGameplayBoards(_gameState)
-
-
-
-test1()
-#dumpGameplayBoards(_gameState)
 
 
 @app.route("/advance", methods=["POST"])
@@ -146,7 +76,7 @@ def advance():
 	logI(payload)
 	logI(f"Sender: {sender}")
 	
-	responsePayload = processAdvance(body)
+	responsePayload = _gameHandler.processAdvance(_gameState, body)
 	if responsePayload is not None:
 		logI("Adding notice")
 		response = requests.post(dispatcher_url + "/notice", json={"payload": convertStringToAsciiByteText(responsePayload)})
