@@ -19,6 +19,7 @@ class ConsoleColors:
 	# game specific
 	rups_msg = "\033[0;37;44m"
 	rups_val = "\033[1;97;44m"
+	test = "\033[0;97;46m"
 	sep = "\033[0;37;45m"
 	exception = "\033[0;30;41m"
 	id = LightPurple

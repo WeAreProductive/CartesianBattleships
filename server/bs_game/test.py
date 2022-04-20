@@ -14,7 +14,11 @@ class BSTest:
 		response = self._gameHandler.processAdvance(self._gameState, body)
 
 	def run(self):
-		self.runTest1()
+		logI(f"{cc.test}-=-=-= Start test =-=-=-{cc.NC}")
+		try:
+			self.runTest1()
+		except Exception as ex:
+			logEX(ex)
 		
 	def runTest1(self):
 		self.send(1, "b: xxx123")
