@@ -39,5 +39,14 @@ class ConsoleColors:
 	miss = LightCyan
 	hit = LightRed
 	shoot = "\033[1;30;103m"
+	a0 = Blue
+	a1 = White
+	a2 = LightRed
+	a3 = DarkGray
+	a4 = Cyan
+	a5 = LightGray
+	a6 = Black
+	a7 = LightGreen
+	a8 = "\033[1;30;103m"
 
 cc = ConsoleColors()

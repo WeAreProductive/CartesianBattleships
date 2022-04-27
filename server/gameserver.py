@@ -32,6 +32,8 @@ setLogger(app.logger)
 dispatcher_url = environ["HTTP_DISPATCHER_URL"]
 logI(f"HTTP dispatcher url is {dispatcher_url}")
 
+printLogo()
+
 # Init game
 _gameState = BSGameState(BSGameRules(), str(environ.get("PCBS_GAME_ID")))
 _gameHandler = BSGameHandler()
