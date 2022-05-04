@@ -30,6 +30,9 @@ export default function CliColors() {
 		c_water	: "\x1b[5;30;103m",
 		c_miss	: "\x1b[5;30;46m",
 		c_hit	: "\x1b[5;31;46m",
+		coords	: this.colors.Yellow,
+		title_p1: this.colors.Cyan,
+		title_p2: this.colors.Red,
 		ilbl	: this.colors.DarkGray,
 		grid	: this.colors.White,
 	}
