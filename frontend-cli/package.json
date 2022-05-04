@@ -1,0 +1,23 @@
+{
+  "name": "cartesi-battleships",
+  "version": "1.0.0",
+  "description": "CLI FrontEnd client for Cartesi Battleships game",
+  "main": "./bin/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "cbs": "./bin/index.js"
+  },
+  "author": "Cartesi",
+  "license": "ISC",
+  "dependencies": {
+    "boxen": "^6.2.1",
+    "chalk": "^5.0.1",
+    "inquirer": "^8.2.4",
+    "jetty": "^0.2.1",
+    "keypress": "^0.2.1",
+    "simple-terminal-menu": "^2.0.0"
+  }
+}
