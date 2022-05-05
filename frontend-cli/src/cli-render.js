@@ -5,25 +5,31 @@ const cc = new CliColors();
 const cg = cc.colorsGame;
 
 export default function CliRender(gameState) {
+	// game data
 	var gameRules = gameState.gameRules;
 	var boardHe = gameState.getPlayerHe().board;
 	var boardMe = gameState.getPlayerMe().board;
 	
 	var jetty = new Jetty(process.stdout);
 
+	// current position of player cursor
 	var aim = [0, 0];
-	var origing_b1 = [2, 2];
-	var origing_b2 = [2, 10 + 4 + gameRules.boardX * 2];
+	// origins - base [y, x] coordinates from where to start drawing objects
+	var origin_b1 = [2, 2];
+	var origin_b2 = [2, 14 + gameRules.boardX * 2];
 
 	// ensure origin is valid
 	var ensureOrigin = (origin) => origin != null ? origin : [0, 0]; 
 
+	// move the console blinking caret to non obstructive position
 	var resetCaret = () => {
 		jetty.moveTo([gameRules.boardY + 7, 0]).text("" + cg.NC);
 	}
 
+	// clear the game screen
 	this.clear = () => jetty.clear();
 
+	// draw single line of the game board
 	var drawBoardLine = (iy, board, origin) => {
 		origin = ensureOrigin(origin);
 		// single numbers might cause replace conflicts, so add "C" prefix to prevent it
@@ -38,6 +44,7 @@ export default function CliRender(gameState) {
 		jetty.moveTo([iy + origin[0] + 2, origin[1] + 3]).text(line);
 	}
 
+	// draw all lines of the game board
 	var drawBoard = (board, origin) => {
 		origin = ensureOrigin(origin);
 		for (var iy = 0; iy < gameRules.boardY; iy ++) {
@@ -49,6 +56,7 @@ export default function CliRender(gameState) {
 	var formatCol = (n) => String.fromCharCode(65 + n);
 	var formatRow = (n, leading) => (n < 9 && leading ? " " : "") + (n + 1);
 
+	// draw the game board with all its elements (column and row labels, title, etc.)
 	var drawBoardAll = (board, title, origin) => {
 		origin = ensureOrigin(origin);
 		// draw columns and rows labels
@@ -64,6 +72,7 @@ export default function CliRender(gameState) {
 		drawBoard(board, origin);
 	}
 
+	// draw player's aiming cursor
 	var drawCursor = (pos, board, origin) => {
 		origin = ensureOrigin(origin);
 		// draw cursor
@@ -78,23 +87,25 @@ export default function CliRender(gameState) {
 		jetty.moveTo([origin[0] + gameRules.boardY + 2, origin[1] + 4]).text(coords);
 	}
 
+	// draw entire game screen
 	this.drawScreen = () => {
 		jetty.clear();
-		drawBoardAll(boardHe, cg.title_p2 + "Opponent's board", origing_b1);
-		drawBoardAll(boardMe, cg.title_p1 + "My board", origing_b2);
-		drawCursor(aim, boardHe, origing_b1);
+		drawBoardAll(boardHe, cg.title_p2 + "Opponent's board", origin_b1);
+		drawBoardAll(boardMe, cg.title_p1 + "My board", origin_b2);
+		drawCursor(aim, boardHe, origin_b1);
 		resetCaret();
 	}
 
+	// move player's aiming cursor by given x/y offset
 	this.moveCursor = (dx, dy) => {
 		// redraw old line to clear cursor
-		drawBoardLine(aim[0], boardHe, origing_b1);
+		drawBoardLine(aim[0], boardHe, origin_b1);
 		// change cursor position
 		aim[1] += (aim[1] + dx >= 0 && aim[1] + dx < gameRules.boardX) ? dx : 0;
 		aim[0] += (aim[0] + dy >= 0 && aim[0] + dy < gameRules.boardY) ? dy : 0;
 		// redraw new line
-		drawBoardLine(aim[0], boardHe, origing_b1);
-		drawCursor(aim, boardHe, origing_b1);
+		drawBoardLine(aim[0], boardHe, origin_b1);
+		drawCursor(aim, boardHe, origin_b1);
 		resetCaret();
 	}
 
