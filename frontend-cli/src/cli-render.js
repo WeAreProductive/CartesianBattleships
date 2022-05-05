@@ -4,11 +4,14 @@ import CliColors from "./cli-colors.js";
 const cc = new CliColors();
 const cg = cc.colorsGame;
 
-export default function CliRender(gameRules, board1, board2) {
+export default function CliRender(gameState) {
+	var gameRules = gameState.gameRules;
+	var boardHe = gameState.getPlayerHe().board;
+	var boardMe = gameState.getPlayerMe().board;
+	
 	var jetty = new Jetty(process.stdout);
 
 	var aim = [0, 0];
-
 	var origing_b1 = [2, 2];
 	var origing_b2 = [2, 10 + 4 + gameRules.boardX * 2];
 
@@ -77,21 +80,21 @@ export default function CliRender(gameRules, board1, board2) {
 
 	this.drawScreen = () => {
 		jetty.clear();
-		drawBoardAll(board1, cg.title_p2 + "Opponent's board", origing_b1);
-		drawBoardAll(board2, cg.title_p1 + "My board", origing_b2);
-		drawCursor(aim, board1, origing_b1);
+		drawBoardAll(boardHe, cg.title_p2 + "Opponent's board", origing_b1);
+		drawBoardAll(boardMe, cg.title_p1 + "My board", origing_b2);
+		drawCursor(aim, boardHe, origing_b1);
 		resetCaret();
 	}
 
 	this.moveCursor = (dx, dy) => {
 		// redraw old line to clear cursor
-		drawBoardLine(aim[0], board1, origing_b1);
+		drawBoardLine(aim[0], boardHe, origing_b1);
 		// change cursor position
 		aim[1] += (aim[1] + dx >= 0 && aim[1] + dx < gameRules.boardX) ? dx : 0;
 		aim[0] += (aim[0] + dy >= 0 && aim[0] + dy < gameRules.boardY) ? dy : 0;
 		// redraw new line
-		drawBoardLine(aim[0], board1, origing_b1);
-		drawCursor(aim, board1, origing_b1);
+		drawBoardLine(aim[0], boardHe, origing_b1);
+		drawCursor(aim, boardHe, origing_b1);
 		resetCaret();
 	}
 
