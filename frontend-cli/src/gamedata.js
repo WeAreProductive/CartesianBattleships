@@ -1,8 +1,8 @@
 export default function() { return 1; }
 
 export function BSGameRules() {
-	this.boardX = 20;
-	this.boardY = 20;
+	this.boardX = 12;
+	this.boardY = 12;
 }
 
 export function BSPlayer(gameRules, id) {
@@ -22,8 +22,8 @@ export function BSGameState(gameRules, gameId) {
 	this.gameRules = gameRules;
 	console.log(gameRules);
 	this.gameId = gameId;
-	this.player1 = new BSPlayer(this.gameRules);
-	this.player2 = new BSPlayer(this.gameRules);
+	this.player1 = new BSPlayer(this.gameRules, "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
+	this.player2 = new BSPlayer(this.gameRules, "0x70997970C51812dc3A010C7d01b50e0d17dc79C8");
 	this.moveHistory = [];
 	this.status = 0;
 	this.result = 0;
@@ -36,6 +36,8 @@ export function BSGameState(gameRules, gameId) {
 		if (tag == 2) return this.player2;
 	}
 
+	this.getPlayerTagMe = () => playerTagMe;
+	this.getPlayerTagHe = () => playerTagHe;
 	this.getPlayerMe = () => this.getPlayerByTag(playerTagMe);
 	this.getPlayerHe = () => this.getPlayerByTag(playerTagHe);
 }

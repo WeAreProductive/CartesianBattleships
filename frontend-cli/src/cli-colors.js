@@ -32,9 +32,18 @@ export default function CliColors() {
 		c_hit	: "\x1b[5;31;46m",
 		coords	: this.colors.Yellow,
 		title_p1: this.colors.Cyan,
-		title_p2: this.colors.Red,
+		title_p2: this.colors.Brown,
 		ilbl	: this.colors.DarkGray,
 		grid	: this.colors.White,
+	}
+
+	this.colorInfoPanel = {
+		NC		: this.colors.NC,
+		lbl		: this.colors.DarkGray,
+		game	: this.colors.LightPurple,
+		player	: this.colors.Purple,
+		tag_me	: this.colors.Cyan,
+		tag_he	: this.colors.Brown,
 	}
 
 	this.colorsLogo = {

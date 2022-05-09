@@ -3,6 +3,7 @@ import CliColors from "./cli-colors.js";
 
 const cc = new CliColors();
 const cg = cc.colorsGame;
+const ci = cc.colorInfoPanel;
 
 export default function CliRender(gameState) {
 	// game data
@@ -14,17 +15,17 @@ export default function CliRender(gameState) {
 
 	// current position of player cursor
 	var aim = [0, 0];
-	// origins - base [y, x] coordinates from where to start drawing objects
-	var origin_b1 = [2, 2];
-	var origin_b2 = [2, 14 + gameRules.boardX * 2];
+	// origins - base [y, x, size_y, size_x] coordinates from where to start drawing objects
+	var origin_header = [2, 2, 5, 67];
+	var origin_b1 = [8, 2];
+	var origin_b2 = [8, 14 + gameRules.boardX * 2];
+	var origin_reset = [15, 0];
 
 	// ensure origin is valid
 	var ensureOrigin = (origin) => origin != null ? origin : [0, 0]; 
 
 	// move the console blinking caret to non obstructive position
-	var resetCaret = () => {
-		jetty.moveTo([gameRules.boardY + 7, 0]).text("" + cg.NC);
-	}
+	var resetCaret = () => jetty.moveTo([origin_reset[0] + gameRules.boardY, origin_reset[1]]).text("" + cg.NC);
 
 	// clear the game screen
 	this.clear = () => jetty.clear();
@@ -87,9 +88,58 @@ export default function CliRender(gameState) {
 		jetty.moveTo([origin[0] + gameRules.boardY + 2, origin[1] + 4]).text(coords);
 	}
 
+	var drawBox = (origin, style) => {
+		var chars = [];
+		switch (style) {
+			case "single":
+				chars = [' ', '─', '│', '┌', '┐', '└', '┘'];
+				break;
+			case "double":
+				chars = [' ', '═', '║', '╔', '╗', '╚', '╝'];
+				break;
+			case "single-double":
+				chars = [' ', '─', '║', '╓', '╖', '╙', '╜'];
+				break;
+			case "double-single":
+				chars = [' ', '═', '│', '╒', '╕', '╘', '╛'];
+				break;
+			case "dash":
+				chars = [' ', '┄', '┆', '┌', '┐', '└', '┘'];
+				break;
+			default: // std
+				chars = [' ', '-', '|', '+', '+', '+', '+'];
+		}
+		var line1 = chars[1].repeat(origin[3] - 2);
+		var line2 = chars[0].repeat(origin[3] - 2);
+		var lt = chars[3] + line1 + chars[4];
+		var lm = chars[2] + line2 + chars[2];
+		var lb = chars[5] + line1 + chars[6];
+		jetty.moveTo([origin[0], origin[1]]).text(lt);
+		for (var i = 1; i < origin[2] - 1; i++)
+			jetty.moveTo([origin[0] + i, origin[1]]).text(lm);
+		jetty.moveTo([origin[0] + origin[2] - 1, origin[1]]).text(lb);
+	}
+
+	var drawHeader = (origin) => {
+		var playerTag = (tag) =>{
+			var lbl = (tag == gameState.getPlayerTagMe()) ? ci.tag_me + "me" : ""/*ci.tag_he + "opponent"*/;
+			return (tag == gameState.getPlayerTagMe()) ? ci.lbl +" (" + lbl + ci.lbl +")" : "";
+		}
+
+		drawBox(origin, "double");
+		
+		var lblGameId = ci.lbl + " Game ID: " + ci.game + gameState.gameId + ci.NC;
+		var lblPlayer1 = ci.lbl + "Player 1: " + ci.player + gameState.player1.playerId + playerTag(1) + ci.NC;
+		var lblPlayer2 = ci.lbl + "Player 2: " + ci.player + gameState.player2.playerId + playerTag(2) + ci.NC;
+		jetty.moveTo([origin[0] + 1, origin[1] + 2]).text(lblGameId);
+		jetty.moveTo([origin[0] + 2, origin[1] + 2]).text(lblPlayer1);
+		jetty.moveTo([origin[0] + 3, origin[1] + 2]).text(lblPlayer2);
+	}
+
 	// draw entire game screen
 	this.drawScreen = () => {
 		jetty.clear();
+		drawHeader(origin_header);
 		drawBoardAll(boardHe, cg.title_p2 + "Opponent's board", origin_b1);
 		drawBoardAll(boardMe, cg.title_p1 + "My board", origin_b2);
 		drawCursor(aim, boardHe, origin_b1);
