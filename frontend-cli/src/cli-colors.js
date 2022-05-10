@@ -44,6 +44,10 @@ export default function CliColors() {
 		player	: this.colors.Purple,
 		tag_me	: this.colors.Cyan,
 		tag_he	: this.colors.Brown,
+		m_coord	: this.colors.Yellow,
+		m_hit	: this.colorsGame.hit,
+		m_miss	: this.colorsGame.miss,
+		ilbl	: this.colors.DarkGray
 	}
 
 	this.colorsLogo = {

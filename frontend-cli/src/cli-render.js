@@ -17,6 +17,7 @@ export default function CliRender(gameState) {
 	var aim = [0, 0];
 	// origins - base [y, x, size_y, size_x] coordinates from where to start drawing objects
 	var origin_header = [2, 2, 5, 67];
+	var origin_history = [2, 70, 15, 23];
 	var origin_b1 = [8, 2];
 	var origin_b2 = [8, 14 + gameRules.boardX * 2];
 	var origin_reset = [15, 0];
@@ -120,7 +121,7 @@ export default function CliRender(gameState) {
 		jetty.moveTo([origin[0] + origin[2] - 1, origin[1]]).text(lb);
 	}
 
-	var drawHeader = (origin) => {
+	var drawPanelGameInfo = (origin) => {
 		var playerTag = (tag) =>{
 			var lbl = (tag == gameState.getPlayerTagMe()) ? ci.tag_me + "me" : ""/*ci.tag_he + "opponent"*/;
 			return (tag == gameState.getPlayerTagMe()) ? ci.lbl +" (" + lbl + ci.lbl +")" : "";
@@ -136,10 +137,40 @@ export default function CliRender(gameState) {
 		jetty.moveTo([origin[0] + 3, origin[1] + 2]).text(lblPlayer2);
 	}
 
+	var getHistoryPaneSize = () => origin_header[2] + 4 + gameState.gameRules.boardY;
+	var getHistoryPageSize = () => Math.min(gameState.moveHistory.length, getHistoryPaneSize()-2);
+
+	var drawGameHistory = (origin) => {
+		origin[2] = getHistoryPaneSize();
+		var sizeH = getHistoryPageSize();
+		var moves = gameState.moveHistory.slice(-sizeH);
+		var offset = Math.max(gameState.moveHistory.length - sizeH, 0);
+		//var size = Math.min(moves.length, sizeH);
+		for (var i = 0; i < moves.length; i++) {
+			var m = moves[i];
+			var index = (offset + i + 1) + "";
+			index = " ".repeat(Math.max(3 - index.length, 0)) + ci.ilbl + index + ". ";
+			var clrP = m.player == gameState.getPlayerTagMe() ? ci.tag_me : ci.tag_he;
+			var player = clrP + "P" + m.player + ": ";
+			var coord = ci.m_coord + formatCol(m.mx) + formatRow(m.my, 0);
+			var shoot = m.wasHit ? ci.m_hit + " HIT" : ci.m_miss + " miss";
+			var lbl = index + player + coord + shoot + ci.NC;
+			jetty.moveTo([origin[0] + 1 + i, origin[1] + 2]).text(ci.NC + " ".repeat(origin[2] - 1));
+			jetty.moveTo([origin[0] + 1 + i, origin[1] + 2]).text(lbl);
+		}
+	}
+
+	var drawPanelGameHistory = (origin) => {
+		origin[2] = getHistoryPaneSize();
+		drawBox(origin, "single");
+		drawGameHistory(origin);
+	}
+
 	// draw entire game screen
 	this.drawScreen = () => {
 		jetty.clear();
-		drawHeader(origin_header);
+		drawPanelGameInfo(origin_header);
+		drawPanelGameHistory(origin_history);
 		drawBoardAll(boardHe, cg.title_p2 + "Opponent's board", origin_b1);
 		drawBoardAll(boardMe, cg.title_p1 + "My board", origin_b2);
 		drawCursor(aim, boardHe, origin_b1);
