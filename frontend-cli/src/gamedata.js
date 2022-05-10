@@ -6,7 +6,6 @@ export function BSGameRules() {
 }
 
 export function BSPlayer(gameRules, id) {
-	//console.log(gameRules);
 	this.playerId = id;
 	this.board = new Array(gameRules.boardY).fill(0).map(() => new Array(gameRules.boardX).fill(0))
 }
@@ -20,7 +19,6 @@ export function BSGameMove(player, wasHit, mx, my) {
 
 export function BSGameState(gameRules, gameId) {
 	this.gameRules = gameRules;
-	console.log(gameRules);
 	this.gameId = gameId;
 	this.player1 = new BSPlayer(this.gameRules, "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
 	this.player2 = new BSPlayer(this.gameRules, "0x70997970C51812dc3A010C7d01b50e0d17dc79C8");
