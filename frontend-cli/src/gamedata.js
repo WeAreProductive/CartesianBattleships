@@ -12,8 +12,8 @@ export function BSPlayer(gameRules, id) {
 }
 
 export function BSGameMove(player, wasHit, mx, my) {
-	this.player = player;
-	this.wasHit = wasHit;
+	this.player = player; // player tag
+	this.wasHit = wasHit; // 0 - miss, 1 - hit, -1 - unknown
 	this.mx = mx;
 	this.my = my;
 }
