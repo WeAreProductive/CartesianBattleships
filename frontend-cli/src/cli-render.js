@@ -20,13 +20,14 @@ export default function CliRender(gameState) {
 	var origin_history = [2, 70, 15, 23];
 	var origin_b1 = [8, 2];
 	var origin_b2 = [8, 14 + gameRules.boardX * 2];
-	var origin_reset = [15, 0];
+	var origin_turn = [origin_header[2] + gameRules.boardY + 7, 2];
+	var origin_reset = [gameRules.boardY + 15, 0];
 
 	// ensure origin is valid
 	var ensureOrigin = (origin) => origin != null ? origin : [0, 0]; 
 
 	// move the console blinking caret to non obstructive position
-	var resetCaret = () => jetty.moveTo([origin_reset[0] + gameRules.boardY, origin_reset[1]]).text("" + cg.NC);
+	var resetCaret = () => jetty.moveTo([origin_reset[0], origin_reset[1]]).text("" + cg.NC);
 
 	// clear the game screen
 	this.clear = () => jetty.clear();
@@ -166,13 +167,35 @@ export default function CliRender(gameState) {
 		drawGameHistory(origin);
 	}
 
+	var animFrames_spinner = () => ['-', '\\', '|', '/'];
+	var animFrames_dotsPass = () => ['   ', '.', '..', '...', ' ..', '  .', '   ', '   '];
+	var animateText = (origin, speed, frames, prefix, suffix) => {
+		var i = 0;
+		return setInterval((arg) => {
+			var text = prefix + frames[i++] + suffix;
+			i = (i >= frames.length) ? 0 : i;
+			jetty.moveTo(origin).text(text);
+			resetCaret();
+		}, speed, frames);
+	}
+
+	var drawTurn = (origin) => {
+		var text = ci.turn_me + "My turn. " + ci.hint_t + "User arrow keys to move, Enter to shoot." + ci.NC;
+		// text = ci.turn_he + "Opponent's turn. " + ci.hint_t + "Waiting" + ci.NC;
+		// var animId = animateText([origin[0], origin[1] + 24], 300, animFrames_dotsPass(), ci.hint_t, ci.NC);
+		// setTimeout(() => { clearInterval(animId) }, 10 * 1000);
+
+		jetty.moveTo([origin[0], origin[1]]).text(text);
+	}
+
 	// draw entire game screen
 	this.drawScreen = () => {
 		jetty.clear();
 		drawPanelGameInfo(origin_header);
 		drawPanelGameHistory(origin_history);
-		drawBoardAll(boardHe, cg.title_p2 + "Opponent's board", origin_b1);
-		drawBoardAll(boardMe, cg.title_p1 + "My board", origin_b2);
+		drawBoardAll(boardHe, cg.title_p2 + "Opponent's fleet", origin_b1);
+		drawBoardAll(boardMe, cg.title_p1 + "My fleet", origin_b2);
+		drawTurn(origin_turn);
 		drawCursor(aim, boardHe, origin_b1);
 		resetCaret();
 	}

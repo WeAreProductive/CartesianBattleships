@@ -47,7 +47,10 @@ export default function CliColors() {
 		m_coord	: this.colors.Yellow,
 		m_hit	: this.colorsGame.hit,
 		m_miss	: this.colorsGame.miss,
-		ilbl	: this.colors.DarkGray
+		ilbl	: this.colors.DarkGray,
+		turn_me	: this.colors.Cyan,
+		turn_he	: this.colors.Brown,
+		hint_t	: this.colors.DarkGray
 	}
 
 	this.colorsLogo = {
