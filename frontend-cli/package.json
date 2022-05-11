@@ -13,8 +13,6 @@
   "author": "Cartesi",
   "license": "ISC",
   "dependencies": {
-    "boxen": "^6.2.1",
-    "chalk": "^5.0.1",
     "inquirer": "^8.2.4",
     "jetty": "^0.2.1",
     "keypress": "^0.2.1",
