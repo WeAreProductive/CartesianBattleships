@@ -1,6 +1,7 @@
 import KeyPress from "keypress";
 import CliRender from "./cli-render.js";
 import { BSGameRules, BSGameState } from "./gamedata.js";
+import { sendCommand } from "./connect/send";
 
 export default function GamePlay() {
 
@@ -9,17 +10,11 @@ export default function GamePlay() {
 	var cliRender = new CliRender(gameState);
 
 	var shoot = () => {
-
+		sendCommand({ network: "localhost", message: "shoot 2"});
 	}
 
 	this.start = () => {
 
-		//board1[2][1] = 1;
-		//board1[3][2] = 2;
-		// board1[4][2] = 4;
-		// board1[4][3] = 4;
-		// board1[4][4] = 4;
-		// board1[5][4] = 4;
 
 		cliRender.drawScreen();
 
