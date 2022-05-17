@@ -13,7 +13,7 @@ export default function CliRender(gameState) {
 	
 	var jetty = new Jetty(process.stdout);
 
-	// current position of player cursor
+	// current position of player cursor [y, x]
 	var aim = [0, 0];
 	// origins - base [y, x, size_y, size_x] coordinates from where to start drawing objects
 	var origin_header = [2, 2, 5, 67];
@@ -22,6 +22,8 @@ export default function CliRender(gameState) {
 	var origin_b2 = [8, 14 + gameRules.boardX * 2];
 	var origin_turn = [origin_header[2] + gameRules.boardY + 7, 2];
 	var origin_reset = [gameRules.boardY + 15, 0];
+
+	this.getAim = () => aim;
 
 	// ensure origin is valid
 	var ensureOrigin = (origin) => origin != null ? origin : [0, 0]; 
@@ -41,7 +43,7 @@ export default function CliRender(gameState) {
 			.replaceAll("C0", cg.water + "~" + cg.NC)	// water
 			.replaceAll("C1", cg.miss + "M" + cg.NC)	// hit missed
 			.replaceAll("C2", cg.hit + "X" + cg.NC)		// hit on target
-			.replaceAll("C3", cg.hit + "V" + cg.NC)		//
+			.replaceAll("C3", cg.shoot + "*" + cg.NC)	// current shot
 			.replaceAll("C4", cg.ship + "#" + cg.NC);	// player ship
 		line = cg.grid + "[" + line + cg.grid + "]";
 		jetty.moveTo([iy + origin[0] + 2, origin[1] + 3]).text(line);
@@ -149,12 +151,13 @@ export default function CliRender(gameState) {
 		//var size = Math.min(moves.length, sizeH);
 		for (var i = 0; i < moves.length; i++) {
 			var m = moves[i];
+			var mNext= i < moves.length - 1 ? moves[i + 1] : null;
 			var index = (offset + i + 1) + "";
 			index = " ".repeat(Math.max(3 - index.length, 0)) + ci.ilbl + index + ". ";
 			var clrP = m.player == gameState.getPlayerTagMe() ? ci.tag_me : ci.tag_he;
 			var player = clrP + "P" + m.player + ": ";
 			var coord = ci.m_coord + formatCol(m.mx) + formatRow(m.my, 0);
-			var shoot = m.wasHit ? ci.m_hit + " HIT" : ci.m_miss + " miss";
+			var shoot = mNext != null ? (mNext.wasHit ? ci.m_hit + " HIT" : ci.m_miss + " miss") : "";
 			var lbl = index + player + coord + shoot + ci.NC;
 			jetty.moveTo([origin[0] + 1 + i, origin[1] + 2]).text(ci.NC + " ".repeat(origin[2] - 1));
 			jetty.moveTo([origin[0] + 1 + i, origin[1] + 2]).text(lbl);
@@ -198,6 +201,12 @@ export default function CliRender(gameState) {
 		drawTurn(origin_turn);
 		drawCursor(aim, boardHe, origin_b1);
 		resetCaret();
+	}
+
+	this.redrawPlayerMove = () => {
+		drawBoard(boardHe, origin_b1);
+		drawGameHistory(origin_history);
+		drawTurn(origin_turn);
 	}
 
 	// move player's aiming cursor by given x/y offset
