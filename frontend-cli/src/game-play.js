@@ -1,16 +1,30 @@
 import KeyPress from "keypress";
 import CliRender from "./cli-render.js";
 import { BSGameRules, BSGameState, BSGameMove } from "./game-data.js";
+import GameProtocol from "./game-protocol.js";
 import { sendCommand } from "./connect/send";
 
 export default function GamePlay() {
 
 	var gameRules = new BSGameRules();
 	var gameState = new BSGameState(gameRules, "G1");
+	var protocol = new GameProtocol();
 	var cliRender = new CliRender(gameState);
 
 	var shoot = () => {
-		sendCommand({ network: "localhost", message: "shoot 2"});
+		var board = gameState.getPlayerHe().board;
+		var move = new BSGameMove(gameState.getPlayerTagMe(), 0, cliRender.getAim()[1], cliRender.getAim()[0]);
+
+		// TODO: validate move
+		if (board[move.my][move.mx] != 0)
+			return; // shoot at non empty location (already hit or miss)
+
+		board[move.my][move.mx] = 3;
+		gameState.moveHistory.push(move);
+		cliRender.redrawPlayerMove();
+
+		var msg = protocol.createCommand_move(move);
+		sendCommand({ network: "localhost", message: msg});
 	}
 
 	var test = () => {
