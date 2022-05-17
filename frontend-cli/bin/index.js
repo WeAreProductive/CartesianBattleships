@@ -8,7 +8,7 @@
 // import TerminalMenu from "simple-terminal-menu";
 
 import Menu from "../src/menu.js";
-import GamePlay from "../src/gameplay.js";
+import GamePlay from "../src/game-play.js";
 
 var createGame = () => {
 	const gamePlay = new GamePlay();

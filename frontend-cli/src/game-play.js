@@ -1,6 +1,6 @@
 import KeyPress from "keypress";
 import CliRender from "./cli-render.js";
-import { BSGameRules, BSGameState } from "./gamedata.js";
+import { BSGameRules, BSGameState } from "./game-data.js";
 import { sendCommand } from "./connect/send";
 
 export default function GamePlay() {
@@ -14,7 +14,6 @@ export default function GamePlay() {
 	}
 
 	this.start = () => {
-
 
 		cliRender.drawScreen();
 
