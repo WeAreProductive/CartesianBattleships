@@ -9,7 +9,9 @@
     "codegen:typechain": "typechain --target ethers-v5 --out-dir generated-src/rollups ../contracts/node_modules/@cartesi/rollups/export/artifacts/*.json",
     "build": "run-s codegen tsc",
     "build2": "run-s codegen:typechain tsc",
-    "start": "ts-node ./dist/bin/index.cjs",
+    "start": "ts-node ./dist/bin/index.js",
+    "start-p1": "ts-node ./dist/bin/index.js player1",
+	"start-p2": "ts-node ./dist/bin/index.js player2",
     "tsc": "tsc"
   },
   "bin": {
