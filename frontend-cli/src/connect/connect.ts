@@ -19,7 +19,8 @@ interface Contracts {
 
 export const connect = async (
     chainName: string,
-    mnemonic?: string
+    mnemonic?: string,
+	path?: string
 ): Promise<Contracts> => {
     const chain = networks.find((n) => n.name === chainName);
     if (!chain) {
@@ -43,7 +44,7 @@ export const connect = async (
 
     // create signer to be used to send transactions
     const signer = mnemonic
-        ? ethers.Wallet.fromMnemonic(mnemonic).connect(provider)
+        ? ethers.Wallet.fromMnemonic(mnemonic, path).connect(provider)
         : new ethers.VoidSigner(address).connect(provider);
 
     // connect to contracts
