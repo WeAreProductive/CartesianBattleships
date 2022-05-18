@@ -4,7 +4,7 @@ import { BSGameRules, BSGameState, BSGameMove } from "./game-data.js";
 import GameProtocol from "./game-protocol.js";
 import { sendCommand } from "./connect/send";
 
-export default function GamePlay() {
+export default function GamePlay(userWallet) {
 
 	var gameRules = new BSGameRules();
 	var gameState = new BSGameState(gameRules, "G1");
@@ -24,7 +24,7 @@ export default function GamePlay() {
 		cliRender.redrawPlayerMove();
 
 		var msg = protocol.createCommand_move(move);
-		sendCommand({ network: "localhost", message: msg});
+		sendCommand(userWallet, msg);
 	}
 
 	var test = () => {
