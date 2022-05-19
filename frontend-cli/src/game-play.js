@@ -11,6 +11,16 @@ export default function GamePlay(userWallet) {
 	var protocol = new GameProtocol();
 	var cliRender = new CliRender(gameState);
 
+	var gameBegin = () => {
+		var msg = protocol.createCommand_gameBegin("*****");
+		sendCommand(userWallet, msg);
+	}
+
+	var gameEnd = () => {
+		var msg = protocol.createCommand_gameEnd("*****");
+		sendCommand(userWallet, msg);		
+	}
+
 	var shoot = () => {
 		var board = gameState.getPlayerHe().board;
 		var move = new BSGameMove(gameState.getPlayerTagMe(), 0, cliRender.getAim()[1], cliRender.getAim()[0]);
@@ -53,6 +63,8 @@ export default function GamePlay(userWallet) {
 		test();
 
 		cliRender.drawScreen();
+
+		gameBegin();
 
 		KeyPress(process.stdin);
 		process.stdin.on('keypress', (ch, key) => {
