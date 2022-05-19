@@ -125,13 +125,14 @@ export default function CliRender(gameState) {
 	}
 
 	var drawPanelGameInfo = (origin) => {
-		var playerTag = (tag) =>{
-			var lbl = (tag == gameState.getPlayerTagMe()) ? ci.tag_me + "me" : ""/*ci.tag_he + "opponent"*/;
-			return (tag == gameState.getPlayerTagMe()) ? ci.lbl +" (" + lbl + ci.lbl +")" : "";
+		var playerTag = (matchTag) =>{
+			var isMe = gameState.getUserTag() == matchTag;
+			var lbl = isMe ? ci.tag_me + "me" : ""/*ci.tag_he + "opponent"*/;
+			return isMe ? ci.lbl +" (" + lbl + ci.lbl +")" : "";
 		}
 
 		drawBox(origin, "double");
-		
+
 		var lblGameId = ci.lbl + " Game ID: " + ci.game + gameState.gameId + ci.NC;
 		var lblPlayer1 = ci.lbl + "Player 1: " + ci.player + gameState.player1.playerId + playerTag(1) + ci.NC;
 		var lblPlayer2 = ci.lbl + "Player 2: " + ci.player + gameState.player2.playerId + playerTag(2) + ci.NC;
