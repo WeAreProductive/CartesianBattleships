@@ -17,7 +17,7 @@ export function BSGameMove(player, wasHit, mx, my) {
 	this.my = my;
 }
 
-export function BSGameState(gameRules, gameId) {
+export function BSGameState(gameRules, gameId, userAddress) {
 	this.gameRules = gameRules;
 	this.gameId = gameId;
 	this.player1 = new BSPlayer(this.gameRules, "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
@@ -32,6 +32,11 @@ export function BSGameState(gameRules, gameId) {
 	this.getPlayerByTag = (tag) => {
 		if (tag == 1) return this.player1;
 		if (tag == 2) return this.player2;
+	}
+
+	this.getUserTag = () => {
+		if (userAddress.toLowerCase() == this.player1.playerId.toLowerCase()) return 1;
+		if (userAddress.toLowerCase() == this.player2.playerId.toLowerCase()) return 2;
 	}
 
 	this.getPlayerTagMe = () => playerTagMe;

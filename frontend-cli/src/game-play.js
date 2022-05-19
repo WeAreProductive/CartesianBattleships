@@ -2,12 +2,12 @@ import KeyPress from "keypress";
 import CliRender from "./cli-render.js";
 import { BSGameRules, BSGameState, BSGameMove } from "./game-data.js";
 import GameProtocol from "./game-protocol.js";
-import { sendCommand } from "./connect/send";
+import { sendCommand, getWalletAddress } from "./connect/send";
 
 export default function GamePlay(userWallet) {
 
 	var gameRules = new BSGameRules();
-	var gameState = new BSGameState(gameRules, "G1");
+	var gameState = new BSGameState(gameRules, "G1", getWalletAddress(userWallet));
 	var protocol = new GameProtocol();
 	var cliRender = new CliRender(gameState);
 
