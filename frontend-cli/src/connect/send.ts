@@ -9,3 +9,8 @@ export const sendCommand = async (userWallet: UserWallet, message: string) => {
 	const tx = await inputContract.addInput(input);
 	const receipt = await tx.wait(1);
 }	
+
+export const getWalletAddress = (userWallet: UserWallet): string => {
+	const wallet = ethers.Wallet.fromMnemonic(userWallet.mnemonic, userWallet.path);
+	return wallet.address;
+}
