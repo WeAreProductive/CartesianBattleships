@@ -53,4 +53,105 @@ export default function Menu() {
 		menu.add("Exit", menu.close);
 	}
 
+	this.showCreateGameMenu = () => {
+		const fnValidateBoardSize = (input) => {
+			let num = Number(input);
+			return !isNaN(num) && num >= 5 && num <= 25;
+		}
+		const fnValidateShips = (input) => {
+			let num = Number(input);
+			return !isNaN(num) && num >= 0 && num <= 5;
+		}
+
+		inquirer
+		.prompt([{ 
+				type: 'list', name: 'rules', 
+				message: 'Game rules', 
+				choices: [
+					{ value: 'std', name: 'Standard rules (10x10 board, Standard fleet)' },
+					{ value: 'custom', name: 'Custom rules' } ]
+			}, {
+				when: (answers) => answers.rules == 'custom',
+				type: 'list', name: 'boardsize',
+				message: 'Board size', 
+				default: 1,
+				choices: [
+					{ value: '8', name: '8x8' },
+					{ value: '10', name: '10x10' },
+					{ value: '12', name: '12x12' },
+					{ value: '16', name: '16x16' },
+					{ value: '20', name: '20x20' },
+					{ value: 'custom', name: 'Custom size' } ]
+			}, {
+				when: (answers) => answers.boardsize == 'custom',
+				type: 'number', name: 'bsx',
+				message: 'Board columns count (5-25): ',
+				default: '10',
+				validate: fnValidateBoardSize
+			}, {
+				when: (answers) => answers.boardsize == 'custom',
+				type: 'number', name: 'bsy',
+				message: 'Board rows count (5-25): ',
+				default: '10',
+				validate: fnValidateBoardSize
+			}, {
+				when: (answers) => answers.rules == 'custom',
+				type: 'list', name: 'ships',
+				message: 'Available ships', 
+				default: 0,
+				choices: [
+					{ value: '1', name: 'Standard fleet (1 5pin, 1 4pin, 2 3pin, 1 2pin)' },
+					{ value: '2', name: 'Extended fleet (1 5pin, 2 4pin, 3 3pin, 4 2pin)' },
+					{ value: '3', name: 'Compact fleet (1 4pin, 1 3pin, 2 2pin)' },
+					{ value: 'custom', name: 'Custom fleet' } ]
+			}, {
+				when: (answers) => answers.ships == 'custom',
+				type: 'number', name: 'pin5',
+				message: 'Count of 5pin ships (Carriers): ',
+				default: '1',
+				validate: fnValidateShips
+			}, {
+				when: (answers) => answers.ships == 'custom',
+				type: 'number', name: 'pin4',
+				message: 'Count of 4pin ships (Cruisers): ',
+				default: '1',
+				validate: fnValidateShips
+			}, {
+				when: (answers) => answers.ships == 'custom',
+				type: 'number', name: 'pin3',
+				message: 'Count of 3pin ships (Submarines): ',
+				default: '2',
+				validate: fnValidateShips
+			}, {
+				when: (answers) => answers.ships == 'custom',
+				type: 'number', name: 'pin2',
+				message: 'Count of 2pin ships (Frigates): ',
+				default: '1',
+				validate: fnValidateShips
+			}, {
+				when: (answers) => answers.ships == 'custom',
+				type: 'number', name: 'pin1',
+				message: 'Count of 1pin ships (Boats): ',
+				default: '0',
+				validate: fnValidateShips
+			}, {
+				type: 'list', name: 'visibility',
+				message: 'Opponent',
+				choices: [
+					{ value: '1', name: 'Anyone can join' },
+					{ value: '2', name: 'Invite user by wallet address' } ]
+			}, {
+				when: (answers) => answers.visibility == '2',
+				type: 'input', name: 'address',
+				message: 'Wallet address: ',
+			}, {
+				type: 'confirm', name: 'create',
+				message: 'Create game?',
+			}
+		])
+		.then((answers) => {
+
+		});
+	}
+
 }

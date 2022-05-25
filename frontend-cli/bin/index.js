@@ -5,8 +5,10 @@ import { defaultWallets } from "../src/connect/wallets"
 import Menu from "../src/menu.js";
 import GamePlay from "../src/game-play.js";
 
+const menu = new Menu();
+
 var createGame = (userWallet) => {
-	joinGame(userWallet);
+	menu.showCreateGameMenu();
 }
 
 var joinGame = (userWallet) => {
@@ -15,7 +17,6 @@ var joinGame = (userWallet) => {
 }
 
 var start = (userWallet) => {
-	var menu = new Menu();
 	menu.showMainMenu(
 		() => createGame(userWallet), 
 		() => joinGame(userWallet)
@@ -25,16 +26,18 @@ var start = (userWallet) => {
 var startAsPlayer = () => {
 	var getArgPlayer = () => process.argv.length > 2 ? process.argv[2] : null;
 	var getPlayer = (player) => defaultWallets.find((n) => n.name === player);
-	var getPlayerVal = (label) => label.replace(" ", "").toLowerCase();
 	
 	var userWallet = getPlayer(getArgPlayer());
 	if (userWallet != null) {
 		start(userWallet);
 	} else {
 		inquirer
-		.prompt([ { type: 'list', name: 'player', message: 'Select player', choices: ['Player 1', 'Player 2'] } ])
+		.prompt([ { 
+			type: 'list', name: 'player', message: 'Select player', 
+			choices: [ { name: 'Player 1', value: 'player1'}, { name: 'Player 2', value: 'player2'}] 
+		}])
 		.then((answers) => {
-			userWallet = getPlayer(getPlayerVal(answers.player));
+			userWallet = getPlayer(answers.player);
 			start(userWallet);
 		});
 	}
