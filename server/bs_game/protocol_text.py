@@ -16,14 +16,14 @@ class Command:
 		return self.cmdType == "d"
 
 	def isTypeKnown(self):
-		return self.cmdType == "c" or self.cmdType == "b" or self.cmdType == "m" or self.cmdType == "e"
+		return self.cmdType == "c" or self.cmdType == "j" or self.cmdType == "m" or self.cmdType == "e"
 
 	def __parsePayload(self, payload):
 		self.raw = payload
 		self.cmdType = payload[:1]
 		self.cmdArgs = payload[2:].strip()
 
-	def getArgs_b(self):
+	def getArgs_j(self):
 		return { "board": self.cmdArgs }
 
 	def getArgs_e(self):

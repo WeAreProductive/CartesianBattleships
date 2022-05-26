@@ -21,10 +21,10 @@ class BSTest:
 			logEX(ex)
 		
 	def runTest1(self):
-		self.send(1, "b: xxx123")
-		self.send(1, "b: xxx123")
-		self.send(2, "b: ccc123")
-		self.send(2, "b: ccc123")
+		self.send(1, "j: xxx123")
+		self.send(1, "j: xxx123")
+		self.send(2, "j: ccc123")
+		self.send(2, "j: ccc123")
 
 
 		#self.send(3, "p3 m: 0 1 1")

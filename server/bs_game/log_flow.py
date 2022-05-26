@@ -7,9 +7,9 @@ def dumpPlayerMsg(_gameState, cmd, response):
 	clrResponse = (f"{cc.res_ok}" if not response.startswith("error") else f"{cc.res_error}") if response is not None else ""
 	logI(f"(Sender/Command/Response) {cc.sender}p{cmd.playerTag}{cc.NC}: {cc.msg_req}{cmd.raw}{cc.NC} -> {clrResponse}{response}{cc.NC}")
 	
-	if cmd.cmdType == 'b':
+	if cmd.cmdType == 'j':
 		if response is not None:
-			logI(f"{cc.action}Player {cmd.playerTag} sends encrypted board.{cc.NC}")
+			logI(f"{cc.action}Player {cmd.playerTag} joins the game and provides encrypted board.{cc.NC}")
 			if _gameState.status == 1:
 				logI(f"{cc.action}Game starts. Player 1 is on the move.{cc.NC}")
 				dumpGamePlayers(_gameState, False)

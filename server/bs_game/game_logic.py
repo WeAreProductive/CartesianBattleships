@@ -54,10 +54,10 @@ class BSGameLogic:
 			if player is None or opponent is None:
 				raise(AdvanceProcessError(cmd.playerTag, "sys:wrong-player"))
 
-			# 'b' - player game board in crypted form
-			if cmd.cmdType == 'b' and self._gameState.status == 0:
+			# 'j' - player joins game and provides board in encrypted form
+			if cmd.cmdType == 'j' and self._gameState.status == 0:
 				if player.boardCrypt is None:
-					player.boardCrypt = cmd.getArgs_b()["board"]
+					player.boardCrypt = cmd.getArgs_j()["board"]
 					responsePayload = f"board p{cmd.playerTag} {player.boardCrypt}"
 				# check if both players are ready then give turn to player 1
 				if self._gameState.player1.boardCrypt is not None and self._gameState.player2.boardCrypt is not None:
