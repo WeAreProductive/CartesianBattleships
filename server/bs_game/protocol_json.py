@@ -30,11 +30,20 @@ class Command:
 			if self.cmdType == "join" or self.cmdType == "joingame": self.cmdType = "j"
 			if self.cmdType == "end" or self.cmdType == "endgame": self.cmdType = "e"
 			if self.cmdType == "move": self.cmdType = "m"
+			return data
 		except:
-			pass
+			return {}
 
 	def __getKeySafe(self, data, key, defaultVal):
 		return data[key] if not data is None and key in data else defaultVal
+
+	def __copyRaw(self):
+		return self.__parsePayload(self.raw)
+
+	def __addPlayerTag(self, data):
+		data["p"] = self.playerTag
+
+	# command arguments
 
 	def getArgs_j(self):
 		return { "board": self.__getKeySafe(self.cmdArgs, "board", None)  }
@@ -48,3 +57,21 @@ class Command:
 			raise
 		hit = convertToInt(args["hit"]) if "hit" in args else 0
 		return { "hit": hit, "x": args["x"], "y": args["y"] }
+
+	# command responses
+
+	def getResponse_j(self):
+		data = self.__copyRaw()
+		self.__addPlayerTag(data)
+		return json.dumps(data)
+
+	def getResponse_e(self, win):
+		data = self.__copyRaw()
+		self.__addPlayerTag(data)
+		data["result"] = "win" if win else "defeat"
+		return json.dumps(data)
+
+	def getResponse_m(self):
+		data = self.__copyRaw()
+		self.__addPlayerTag(data)
+		return json.dumps(data)

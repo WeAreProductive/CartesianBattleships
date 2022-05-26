@@ -23,6 +23,8 @@ class Command:
 		self.cmdType = payload[:1]
 		self.cmdArgs = payload[2:].strip()
 
+	# command arguments
+
 	def getArgs_j(self):
 		return { "board": self.cmdArgs }
 
@@ -34,3 +36,15 @@ class Command:
 		if len(args) != 3:
 			raise
 		return { "hit": args[0], "x": args[1], "y": args[2] }
+
+	# command responses
+	def getResponse_j(self):
+		return f"board p{self.playerTag} {self.cmdArgs}"
+
+	def getResponse_e(self, win):
+		result = "win" if win else "defeat"
+		return f"end p{self.playerTag} {result} {self.cmdArgs}"
+
+	def getResponse_m(self):
+		args = self.getArgs_m()
+		return f"move p{self.playerTag} {args['hit']} {args['x']} {args['y']}"

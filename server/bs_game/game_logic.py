@@ -58,7 +58,7 @@ class BSGameLogic:
 			if cmd.cmdType == 'j' and self._gameState.status == 0:
 				if player.boardCrypt is None:
 					player.boardCrypt = cmd.getArgs_j()["board"]
-					responsePayload = f"board p{cmd.playerTag} {player.boardCrypt}"
+					responsePayload = cmd.getResponse_j()
 				# check if both players are ready then give turn to player 1
 				if self._gameState.player1.boardCrypt is not None and self._gameState.player2.boardCrypt is not None:
 					self.startGame()
@@ -82,7 +82,7 @@ class BSGameLogic:
 					opponent.board[move.my][move.mx] = 1	# mark move on opponent's board
 					self.swithcTurn() # switch player turn
 					# prepare response
-					responsePayload = f"move p{cmd.playerTag} {move.wasHit} {move.mx} {move.my}"
+					responsePayload = cmd.getResponse_m()
 
 			# 'e' - end game
 			if cmd.cmdType == 'e':
@@ -94,7 +94,7 @@ class BSGameLogic:
 						# reveal player key
 						player.keyCrypt = cmd.getArgs_e()["key"]
 						# prepare response
-						responsePayload = f"end p{cmd.playerTag} defeat {player.keyCrypt}"
+						responsePayload = cmd.getResponse_e(False)
 				# player confirming announced end game is a winner
 				elif self._gameState.status == 3:
 					if player.keyCrypt is None:
@@ -103,7 +103,7 @@ class BSGameLogic:
 						# verify game play against revealed boards
 						verifyError = verifyGame(self._gameState)
 						# prepare response
-						responsePayload = verifyError if verifyError is not None else f"end p{cmd.playerTag} win {player.keyCrypt}"
+						responsePayload = verifyError if verifyError is not None else cmd.getResponse_e(True)
 				else:
 					raise(AdvanceProcessError(cmd.playerTag, "end:wrong-turn"))
 
