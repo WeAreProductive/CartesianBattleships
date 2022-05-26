@@ -57,7 +57,7 @@ class BSGameLogic:
 			# 'b' - player game board in crypted form
 			if cmd.cmdType == 'b' and self._gameState.status == 0:
 				if player.boardCrypt is None:
-					player.boardCrypt = cmd.cmdArgs
+					player.boardCrypt = cmd.getArgs_b()["board"]
 					responsePayload = f"board p{cmd.playerTag} {player.boardCrypt}"
 				# check if both players are ready then give turn to player 1
 				if self._gameState.player1.boardCrypt is not None and self._gameState.player2.boardCrypt is not None:
@@ -67,10 +67,11 @@ class BSGameLogic:
 			if cmd.cmdType == 'm':
 				if  self._gameState.status != cmd.playerTag:
 					raise(AdvanceProcessError(cmd.playerTag, "move:wrong-turn"))
-				args = cmd.cmdArgs.split()
-				if len(args) != 3:
+				try:
+					args = cmd.getArgs_m()
+					move = BSGameMove(cmd.playerTag, args["hit"], args["x"], args["y"])
+				except:
 					raise(AdvanceProcessError(cmd.playerTag, "move:bad-arguments"))
-				move = BSGameMove(cmd.playerTag, args[0], args[1], args[2])
 				if not self.isValidMove(move):
 					raise(AdvanceProcessError(cmd.playerTag, "move:invalid"))
 				if opponent.board[move.my][move.mx] != 0:
@@ -91,14 +92,14 @@ class BSGameLogic:
 						self.markLastMoveHit(cmd.playerTag, 1)
 						self.endGame(opponentTag)
 						# reveal player key
-						player.keyCrypt = cmd.cmdArgs
+						player.keyCrypt = cmd.getArgs_e()["key"]
 						# prepare response
 						responsePayload = f"end p{cmd.playerTag} defeat {player.keyCrypt}"
 				# player confirming announced end game is a winner
 				elif self._gameState.status == 3:
 					if player.keyCrypt is None:
 						# reveal player key
-						player.keyCrypt = cmd.cmdArgs
+						player.keyCrypt = cmd.getArgs_e()["key"]
 						# verify game play against revealed boards
 						verifyError = verifyGame(self._gameState)
 						# prepare response
