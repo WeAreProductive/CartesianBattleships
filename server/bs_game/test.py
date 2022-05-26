@@ -56,3 +56,20 @@ class BSTest:
 		#logI(f">>>>>>>>>> player turn {_gameState.status}")
 		#processAdvance(2, "m: 0 4 4")
 		#dumpGameplayBoards(_gameState)
+
+
+	def runTest2(self):
+		self.send(1, '{"gid":"###", "cmd":"j", "arg":{ "board":"***" } }')
+		self.send(2, '{"gid":"###", "cmd":"join", "arg":{ "board":"***" } }')
+
+		self.send(1, '{"gid":"###", "cmd":"m", "arg":{ "x":1, "y": 0 } }')
+		self.send(1, '{"gid":"###", "cmd":"m", "arg":{ "x":1, "y": 1 } }')
+		self.send(2, '{"gid":"###", "cmd":"m", "arg":{ "x":2, "y": 3, "hit": 1} }')
+		self.send(1, '{"gid":"###", "cmd":"m", "arg":{ "x":3, "y": 4 } }')
+		self.send(2, '{"gid":"###", "cmd":"m", "arg":{ "x":0, "y": 1, "hit": 0} }')
+		self.send(1, '{"gid":"###", "cmd":"m", "arg":{ "x":3, "y": 2, "hit": 0} }')
+		self.send(2, '{"gid":"###", "cmd":"m", "arg":{ "x":0, "y": 2, "hit": 0} }')
+		self.send(1, '{"gid":"###", "cmd":"m", "arg":{ "x":4, "y": 5, "hit": 1} }')
+
+		self.send(2, '{"gid":"###", "cmd":"e", "arg":{ "key":"***" } }')
+		self.send(1, '{"gid":"###", "cmd":"e", "arg":{ "key":"***" } }')
