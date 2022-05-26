@@ -2,7 +2,8 @@ from bs_game.utils import *
 from bs_game.log_flow import *
 from bs_game.log_dump import *
 from bs_game.game_logic import *
-from bs_game.protocol_text import *
+#from bs_game.protocol_text import *
+from bs_game.protocol_json import *
 
 class BSGameHandler:
 

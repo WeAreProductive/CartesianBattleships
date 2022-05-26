@@ -16,7 +16,7 @@ class BSTest:
 	def run(self):
 		logI(f"{cc.test}-=-=-= Start test =-=-=-{cc.NC}")
 		try:
-			self.runTest1()
+			self.runTest2()
 		except Exception as ex:
 			logEX(ex)
 		
