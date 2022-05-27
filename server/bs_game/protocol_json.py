@@ -5,6 +5,7 @@ import json
 
 class Command:
 	raw = ""
+	gameId = ""
 	playerTag = 0
 	cmdType = ""
 	cmdArgs = ""
@@ -23,6 +24,7 @@ class Command:
 		self.raw = str(payload)
 		try:
 			data = json.loads(self.raw)
+			self.gameId = str(data["gid"]).lower()
 			self.cmdType = str(data["cmd"]).lower()
 			self.cmdArgs = data["arg"]
 			# command aliases
@@ -59,6 +61,11 @@ class Command:
 		return { "hit": hit, "x": args["x"], "y": args["y"] }
 
 	# command responses
+
+	def getResponse_error(self, msg):
+		data = { "gid": self.gameId, "error": msg}
+		self.__addPlayerTag(data)
+		return json.dumps(data)
 
 	def getResponse_j(self):
 		data = self.__copyRaw()

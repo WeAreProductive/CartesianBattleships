@@ -4,7 +4,7 @@ from bs_game.log_dump import *
 
 def dumpPlayerMsg(_gameState, cmd, response):
 	logI(f"{cc.sep}===== User message >>> ====={cc.NC}")
-	clrResponse = (f"{cc.res_ok}" if not response.startswith("error") else f"{cc.res_error}") if response is not None else ""
+	clrResponse = (f"{cc.res_ok}" if not "error" in response else f"{cc.res_error}") if response is not None else ""
 	logI(f"(Sender/Command/Response) {cc.sender}p{cmd.playerTag}{cc.NC}: {cc.msg_req}{cmd.raw}{cc.NC} -> {clrResponse}{response}{cc.NC}")
 	
 	if cmd.cmdType == 'j':

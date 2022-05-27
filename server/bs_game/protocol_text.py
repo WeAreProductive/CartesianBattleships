@@ -38,6 +38,10 @@ class Command:
 		return { "hit": args[0], "x": args[1], "y": args[2] }
 
 	# command responses
+
+	def getResponse_error(self, msg):
+		return f"error p{self.playerTag} {msg}"
+
 	def getResponse_j(self):
 		return f"board p{self.playerTag} {self.cmdArgs}"
 

@@ -45,14 +45,14 @@ class BSGameLogic:
 		
 		try:
 			if not cmd.isTypeKnown():
-				raise(AdvanceProcessError(cmd.playerTag, "sys:unknown-command"))
+				raise(AdvanceProcessError("sys", "unknown-command"))
 			
 			opponentTag = self._gameState.getOpponentTag(cmd.playerTag)
 			player = self._gameState.getPlayerByTag(cmd.playerTag)
 			opponent = self._gameState.getPlayerByTag(opponentTag)
 			
 			if player is None or opponent is None:
-				raise(AdvanceProcessError(cmd.playerTag, "sys:wrong-player"))
+				raise(AdvanceProcessError("sys", "wrong-player"))
 
 			# 'j' - player joins game and provides board in encrypted form
 			if cmd.cmdType == 'j' and self._gameState.status == 0:
@@ -66,16 +66,16 @@ class BSGameLogic:
 			# 'm' - player move
 			if cmd.cmdType == 'm':
 				if  self._gameState.status != cmd.playerTag:
-					raise(AdvanceProcessError(cmd.playerTag, "move:wrong-turn"))
+					raise(AdvanceProcessError("move", "wrong-turn"))
 				try:
 					args = cmd.getArgs_m()
 					move = BSGameMove(cmd.playerTag, args["hit"], args["x"], args["y"])
 				except:
-					raise(AdvanceProcessError(cmd.playerTag, "move:bad-arguments"))
+					raise(AdvanceProcessError("move", "bad-arguments"))
 				if not self.isValidMove(move):
-					raise(AdvanceProcessError(cmd.playerTag, "move:invalid"))
+					raise(AdvanceProcessError("move", "invalid"))
 				if opponent.board[move.my][move.mx] != 0:
-					raise(AdvanceProcessError(cmd.playerTag, "move:already-played"))
+					raise(AdvanceProcessError("move", "already-played"))
 				if self.isValidMove(move) and opponent.board[move.my][move.mx] == 0: # check if move is valid and also not repeating already played move
 					self.markLastMoveHit(cmd.playerTag, move.wasHit) # mark previous move on player's board if it was hit
 					self._gameState.moveHistory.append(move)		# add move to history
@@ -105,12 +105,12 @@ class BSGameLogic:
 						# prepare response
 						responsePayload = verifyError if verifyError is not None else cmd.getResponse_e(True)
 				else:
-					raise(AdvanceProcessError(cmd.playerTag, "end:wrong-turn"))
+					raise(AdvanceProcessError("end", "wrong-turn"))
 
 		except AdvanceProcessError as err:
-			responsePayload = err.toText()
+			responsePayload = cmd.getResponse_error(err.toText())
 		except Exception as ex:
-			responsePayload = "error internal"
+			responsePayload = cmd.getResponse_error("internal")
 			logE(ex)
 
 		return responsePayload
