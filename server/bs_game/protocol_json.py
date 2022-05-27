@@ -55,10 +55,11 @@ class Command:
 
 	def getArgs_m(self):
 		args = self.cmdArgs
-		if not {"x", "y"} <= args.keys():
+		shot = args["shot"]
+		if not isinstance(shot, list) or len(shot) == 0 or len(shot) % 2 != 0:
 			raise
 		hit = convertToInt(args["hit"]) if "hit" in args else 0
-		return { "hit": hit, "x": args["x"], "y": args["y"] }
+		return { "hit": hit, "x": shot[0], "y": shot[1] }
 
 	# command responses
 
