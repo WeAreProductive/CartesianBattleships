@@ -1,6 +1,23 @@
-from bs_game.utils import *
-
 # Plain Text based protocol
+#
+# Protocol commands description:
+#
+# 		j <encrypted board>
+#
+#	Playr joins game and provides board positions in encrypted form with the <encrypted board> argument.
+#
+#		m <wasHit> <X> <Y>
+#
+#	Player sends move, first with the <wasHit> argument confirm if previous shot by the opponent was
+#	hit or miss (0 or 1) then the player shoots at guess location addressed by <X> and <Y> coordinates.
+#
+#		e <decryption key>
+#
+#	The first player to send this command declares defeat (all his fleet is destroyed).
+#	After that the other player should respond with the same command to declare win.
+#	With the <decryption key> argument the player provides own key to decrypt his board that was initially provided.
+
+from bs_game.utils import *
 
 class Command:
 	raw = ""
