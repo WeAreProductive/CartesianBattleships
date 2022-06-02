@@ -4,20 +4,20 @@ import { BSGameRules, BSGameState, BSGameMove } from "./game-data.js";
 import GameProtocol from "./game-protocol.js";
 import { sendCommand, getWalletAddress } from "./connect/send";
 
-export default function GamePlay(userWallet) {
+export default function GamePlay(gameId, userWallet) {
 
 	var gameRules = new BSGameRules();
-	var gameState = new BSGameState(gameRules, "G1", getWalletAddress(userWallet));
+	var gameState = new BSGameState(gameRules, gameId, getWalletAddress(userWallet));
 	var protocol = new GameProtocol();
 	var cliRender = new CliRender(gameState);
 
 	var gameBegin = () => {
-		var msg = protocol.createCommand_gameBegin("*****");
+		var msg = protocol.createCommand_gameJoin(gameId, "*****");
 		sendCommand(userWallet, msg);
 	}
 
 	var gameEnd = () => {
-		var msg = protocol.createCommand_gameEnd("*****");
+		var msg = protocol.createCommand_gameEnd(gameId, "*****");
 		sendCommand(userWallet, msg);		
 	}
 
@@ -33,7 +33,7 @@ export default function GamePlay(userWallet) {
 		gameState.moveHistory.push(move);
 		cliRender.redrawPlayerMove();
 
-		var msg = protocol.createCommand_move(move);
+		var msg = protocol.createCommand_move(gameId, move);
 		sendCommand(userWallet, msg);
 	}
 

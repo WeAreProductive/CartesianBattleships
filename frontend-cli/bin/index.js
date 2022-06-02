@@ -3,17 +3,24 @@
 import inquirer from "inquirer";
 import { defaultWallets } from "../src/connect/wallets"
 import Menu from "../src/menu.js";
+import GameManager from "../src/game-manage.js";
 import GamePlay from "../src/game-play.js";
 
 const menu = new Menu();
 
 var createGame = (userWallet) => {
-	menu.showCreateGameMenu();
+	menu.showCreateGameMenu((answers) => {
+		var gameMgr = new GameManager(userWallet);
+		gameMgr.gameCreate(answers);
+		joinGame(userWallet);
+	});
 }
 
 var joinGame = (userWallet) => {
-	var gamePlay = new GamePlay(userWallet);
-	gamePlay.start();
+	menu.showJoinGameMenu((answers) => {
+		var gamePlay = new GamePlay(answers.gameId, userWallet);
+		gamePlay.start();
+	});
 }
 
 var start = (userWallet) => {
@@ -25,9 +32,9 @@ var start = (userWallet) => {
 
 var startAsPlayer = () => {
 	var getArgPlayer = () => process.argv.length > 2 ? process.argv[2] : null;
-	var getPlayer = (player) => defaultWallets.find((n) => n.name === player);
+	var getUserWallet = (user) => defaultWallets.find((n) => n.name === user);
 	
-	var userWallet = getPlayer(getArgPlayer());
+	var userWallet = getUserWallet(getArgPlayer());
 	if (userWallet != null) {
 		start(userWallet);
 	} else {
@@ -37,7 +44,7 @@ var startAsPlayer = () => {
 			choices: [ { name: 'Player 1', value: 'player1'}, { name: 'Player 2', value: 'player2'}] 
 		}])
 		.then((answers) => {
-			userWallet = getPlayer(answers.player);
+			userWallet = getUserWallet(answers.player);
 			start(userWallet);
 		});
 	}
