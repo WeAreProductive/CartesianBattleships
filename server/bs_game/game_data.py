@@ -72,19 +72,6 @@ class BSGameState(BSGameStateBase):
 	def __init__(self, descriptor, _gameRules):
 		super().__init__(descriptor)
 		self._gameRules = _gameRules
-
-	def addPlayer(self, address, board):
-		# game owner always joins as Player 1
-		if self.player1 is None and self.isUserOwner(address):
-			self.player1 = BSPlayer(self._gameRules, address, 1)
-			self.player1.boardCrypt = board
-			return self.player1
-		# anyone of the invited players (except the owner) can join as Player 2
-		if self.player2 is None and self.isUserInvited(address) and not self.isUserOwner(address):
-			self.player2 = BSPlayer(self._gameRules, address, 2)
-			self.player2.boardCrypt = board
-			return self.player2
-		return None
 	
 	def getPlayerByTag(self, playerTag):
 		if playerTag == 1:

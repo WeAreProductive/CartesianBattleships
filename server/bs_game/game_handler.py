@@ -7,7 +7,7 @@ from bs_game.protocol_json import *
 
 class BSGameHandler:
 
-	def processAdvance(self, _gameState, body):
+	def processAdvance(self, _gameManager, body):
 		try:
 			payload = convertAsciiByteTextToString(body["payload"])
 		except:
@@ -18,12 +18,30 @@ class BSGameHandler:
 			sender = ""
 
 		responsePayload = None
-		cmd = Command(_gameState.getPlayerTagById(sender), payload)
-		if cmd.isSys():
-			responsePayload = self.processSystemCommand(_gameState, cmd.cmdArgs)
-		else:
-			responsePayload = BSGameLogic(_gameState).processPlayerCommand(cmd)	
-			dumpPlayerMsg(_gameState, cmd, responsePayload)		
+		try:
+			cmd = Command(sender, payload)
+
+			gameState = _gameManager.getGame(cmd.gameId)
+			cmd.syncPlayerTag(gameState.getPlayerTagById(sender) if not gameState is None else 0)
+
+			handlerClass = cmd.getHandlerClass()
+			if handlerClass == "debug":
+				pass
+				# responsePayload = self.processSystemCommand(gameState, cmd.cmdArgs)
+			elif handlerClass == "manager":
+				responsePayload = _gameManager.processPlayerCommand(cmd)
+			elif handlerClass == "game":
+				responsePayload = BSGameLogic(gameState).processPlayerCommand(cmd)	
+			else:
+				raise(AdvanceProcessError("sys", "unknown-command"))
+
+		except AdvanceProcessError as err:
+			responsePayload = cmd.getResponse_error(err.toText())
+		except Exception as ex:
+			responsePayload = cmd.getResponse_error("internal")
+			logEX(ex)
+
+		dumpPlayerMsg(gameState, cmd, responsePayload)
 		return responsePayload
 
 
