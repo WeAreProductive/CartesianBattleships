@@ -3,6 +3,7 @@ from bs_game.console import *
 from bs_game.log import *
 
 def dumpGameInfo(_gameState, spacers = True):
+	if _gameState is None: return
 	_gameRules = _gameState._gameRules
 	if spacers: logI(f"{cc.sep}===== Game Info >>> ====={cc.NC}")
 	logI(f"Game ID: {cc.id}{_gameState.gameId}{cc.NC}")
@@ -20,6 +21,7 @@ def dumpArray2D(arr):
 		logI(row)
 
 def dumpGamePlayers(_gameState, spacers = True):
+	if _gameState is None: return
 	if spacers: logI(f"{cc.sep}===== Game Players >>> ====={cc.NC}")
 	logI(f"Player 1 ID: {cc.id}{_gameState.player1.Id}{cc.NC}")
 	logI(f"Player 1 boardCrypt: {cc.data}{_gameState.player1.boardCrypt}{cc.NC}")
@@ -30,6 +32,7 @@ def dumpGamePlayers(_gameState, spacers = True):
 	if spacers: logI(f"{cc.sep}===== Game Players <<< ====={cc.NC}")
 
 def dumpGameplayBoards(_gameState, spacers = True):
+	if _gameState is None or _gameState.player1 is None or _gameState.player2 is None: return
 	_gameRules = _gameState._gameRules
 	
 	def applyLastMove(playerTag, idy, line):
@@ -65,6 +68,7 @@ def dumpGameplayBoards(_gameState, spacers = True):
 	if spacers: logI(f"{cc.sep}===== Gameplay Boards <<< ====={cc.NC}")	
 
 def dumpGameplayMove(_gameState, idx):
+	if _gameState is None: return
 	idx = (len(_gameState.moveHistory) - 1) if idx == -1 else idx
 	if idx < 0: return
 	val = _gameState.moveHistory[idx]
@@ -73,6 +77,7 @@ def dumpGameplayMove(_gameState, idx):
 	logI(f"{cc.Brown}Turn {idx+1}:{cc.NC} Player {val.player} {action} and shoots at X={val.mx} Y={val.my}")
 
 def dumpGameplayMoves(_gameState, spacers = True):
+	if _gameState is None: return
 	if spacers: logI(f"{cc.sep}===== Gameplay Moves >>> ====={cc.NC}")
 	for idx, val in enumerate(_gameState.moveHistory):
 		dumpGameplayMove(_gameState, idx)
@@ -83,6 +88,7 @@ def dumpGameplayMoves(_gameState, spacers = True):
 	if spacers: logI(f"{cc.sep}===== Gameplay Moves <<< ====={cc.NC}")
 
 def dumpGameVerification(_gameState, spacers = True):
+	if _gameState is None: return
 	if spacers: logI(f"{cc.sep_verify}===== Gameplay Verification >>> ====={cc.NC}")
 	
 	msg_ok = f"{cc.NC}[{cc.verify_ok}OK{cc.NC}]"
