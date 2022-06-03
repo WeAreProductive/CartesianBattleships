@@ -76,44 +76,47 @@ The final command, which effectively starts the server, can also be configured i
 After the server successfully starts, it should print an output like the following:
 
 ```
-[2022-06-03 15:18:43 +0300] [6047] [INFO] Starting gunicorn 19.9.0
-[2022-06-03 15:18:43 +0300] [6047] [INFO] Listening at: http://0.0.0.0:5003 (6047)
-[2022-06-03 15:18:43 +0300] [6047] [INFO] Using worker: sync
-/usr/lib/python3.8/os.py:1023: RuntimeWarning: line buffering (buffering=1) isn't supported in binary mode, the default buffer size will be used
-  return io.open(fd, *args, **kwargs)
-[2022-06-03 15:18:43 +0300] [6049] [INFO] Booting worker with pid: 6049
-[2022-06-03 15:18:44,147] INFO in log: HTTP dispatcher url is http://127.0.0.1:5004
-[2022-06-03 15:18:44,148] INFO in log: 
-[2022-06-03 15:18:44,148] INFO in log: 
-[2022-06-03 15:18:44,148] INFO in log:      Cartesi                            .) |
-[2022-06-03 15:18:44,148] INFO in log:    Battleships                       ____|_|_(.
-[2022-06-03 15:18:44,148] INFO in log:                                      _\______|
-[2022-06-03 15:18:44,148] INFO in log:                                    _/________|_//_
-[2022-06-03 15:18:44,148] INFO in log:                _______            /   <<<         |
-[2022-06-03 15:18:44,148] INFO in log:                \ ...  \___[\\\]__/_________[///]__|___F
-[2022-06-03 15:18:44,148] INFO in log:    __4__        \                                     |
-[2022-06-03 15:18:44,149] INFO in log:    \   /         \   V            <<<      <<<        /
-[2022-06-03 15:18:44,149] INFO in log: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[2022-06-03 15:18:44,149] INFO in log: ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-[2022-06-03 15:18:44,149] INFO in log:  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
-[2022-06-03 15:18:44,149] INFO in log: 
-[2022-06-03 15:18:44,149] INFO in log: 
-^C[2022-06-03 15:18:46 +0300] [6047] [INFO] Handling signal: int
-[2022-06-03 15:18:46 +0300] [6049] [INFO] Worker exiting (pid: 6049)
-[2022-06-03 15:18:46 +0300] [6047] [INFO] Shutting down: Master
-
+[6047] [INFO] Starting gunicorn 19.9.0
+[6047] [INFO] Listening at: http://0.0.0.0:5003 (6047)
+[6047] [INFO] Using worker: sync
+[6049] [INFO] Booting worker with pid: 6049
+INFO in log: HTTP dispatcher url is http://127.0.0.1:5004
+INFO in log: 
+INFO in log: 
+INFO in log:      Cartesi                            .) |
+INFO in log:    Battleships                       ____|_|_(.
+INFO in log:                                      _\______|
+INFO in log:                                    _/________|_//_
+INFO in log:                _______            /   <<<         |
+INFO in log:                \ ...  \___[\\\]__/_________[///]__|___F
+INFO in log:    __4__        \                                     |
+INFO in log:    \   /         \   V            <<<      <<<        /
+INFO in log: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO in log: ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+INFO in log:  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+INFO in log: 
+INFO in log: 
 ```
 
 After that, you can interact with the application
 
-When you add an input, you should see it being processed by the game server as follows:
+When a new game command is sent by client, it should be seen processed by the game server and the game state shown as follows:
 
 ```shell
-[2022-01-21 15:58:39,555] INFO in echo: Received advance request body {'metadata': {'msg_sender': '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', 'epoch_index': 0, 'input_index': 0, 'block_number': 11, 'time_stamp': 1642791522}, 'payload': '0x636172746573690d0a'}
-[2022-01-21 15:58:39,556] INFO in echo: Adding notice
-[2022-01-21 15:58:39,650] INFO in echo: Received notice status 201 body b'{"index":0}'
-[2022-01-21 15:58:39,651] INFO in echo: Finishing
-[2022-01-21 15:58:39,666] INFO in echo: Received finish status 202
+INFO in log: ===== User message (from 0x70997970c51812dc3a010c7d01b50e0d17dc79c8) >>> =====
+INFO in log: (Sender/Command/Response) p2: {"gid":"1", "cmd":"m", "arg":{ "shot": [2, 0] } } -> {"gid": "1", "cmd": "m", "arg": {"shot": [2, 0]}, "p": 2}
+INFO in log: Game: 1
+INFO in log: Turn 3: Player 2 was missed  and shoots at X=2 Y=0
+INFO in log: Players 1 and 2 boards:
+INFO in log: [~ ~ * ~ ~ ~ ~ ~]    [~ M ~ ~ ~ ~ ~ ~]
+INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO in log: ===== User message <<< =====
 ```
 
 The game server can be run in TEST mode. This runs and plays a game with predefined moves jsut to show how the gameplay should look at server side. To do so add TEST="1" as environment parameter:
