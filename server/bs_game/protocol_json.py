@@ -24,7 +24,7 @@
 #		Response repeats request if valid and appends fields:
 # 			"gid" - id of the newly created game
 #			"sys"."owner" - wallet address of the user who created the game
-#			"sys"."timeput" - game timeout
+#			"sys"."timeout" - game timeout
 #
 #	- Join game
 #			{ "gid": "<gameId>", "cmd":"j", "arg": { "board": "<encrypted board>" } }
