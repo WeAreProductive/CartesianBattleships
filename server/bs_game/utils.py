@@ -9,3 +9,10 @@ def convertAsciiByteTextToString(text):
 	 
 def convertStringToAsciiByteText(text):
 	return "0x" + bytearray(text, "ascii").hex()
+
+def getKeySafe(data, key, defaultVal):
+	return data[key] if not data is None and key in data else defaultVal
+
+def ensureKey(data, key, defaultVal):
+	if not data is None and not key in data:
+		data[key] = defaultVal

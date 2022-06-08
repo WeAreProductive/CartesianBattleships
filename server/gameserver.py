@@ -34,18 +34,13 @@ logI(f"HTTP dispatcher url is {dispatcher_url}")
 
 printLogo()
 
-# Init game
-_gameState = BSGameState(BSGameRules(), str(environ.get("PCBS_GAME_ID")))
+# Init
+_gameManager = BSGameManager()
 _gameHandler = BSGameHandler()
-# Join players
-_gameState.addPlayer("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
-_gameState.addPlayer("0x70997970C51812dc3A010C7d01b50e0d17dc79C8")
-
-dumpGameInfo(_gameState)
 
 # Run tests
 if environ.get("TEST") == "1":
-	BSTest(_gameState, _gameHandler).run()
+	BSTest(_gameManager, _gameHandler).run()
 
 # Setup route for handling input
 @app.route("/advance", methods=["POST"])
@@ -56,7 +51,7 @@ def advance():
 	logI(f"{cc.rups_msg}Received advance request body {cc.rups_val}{body}{cc.NC}")
 	# Process notice
 	try:
-		responsePayload = _gameHandler.processAdvance(_gameState, body)
+		responsePayload = _gameHandler.processAdvance(_gameManager, body)
 	except Exception as ex:
 		logEX(ex)
 		responsePayload = ""

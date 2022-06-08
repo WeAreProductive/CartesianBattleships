@@ -53,7 +53,16 @@ export default function Menu() {
 		menu.add("Exit", menu.close);
 	}
 
-	this.showCreateGameMenu = () => {
+	this.showJoinGameMenu = (onJoin) => {
+		inquirer
+		.prompt([{
+			type: 'input', name: 'gameId',
+			message: 'Join to game by ID: ',
+		}])
+		.then(onJoin);
+	}
+
+	this.showCreateGameMenu = (onCreate) => {
 		const fnValidateBoardSize = (input) => {
 			let num = Number(input);
 			return !isNaN(num) && num >= 5 && num <= 25;
@@ -149,9 +158,7 @@ export default function Menu() {
 				message: 'Create game?',
 			}
 		])
-		.then((answers) => {
-
-		});
+		.then(onCreate);
 	}
 
 }
