@@ -36,7 +36,7 @@ export default function Menu() {
 
 	printLogo();
 
-	this.showMainMenu = (fn_CreateGame, fn_JoinGame) => {
+	this.showMainMenu = (fn_CreateGame, fn_JoinGame, fn_TestReceive) => {
 		var menu = new TerminalMenu({
 			width: 60,
 			fg: "yellow",
@@ -49,6 +49,7 @@ export default function Menu() {
 		menu.writeSeparator();
 		menu.add("Create game", (label, marker) => fn_CreateGame(label, marker));
 		menu.add("Join game", (label, marker) => fn_JoinGame(label, marker));
+		menu.add("Test receive", (label, marker) => fn_TestReceive(label, marker));
 		menu.writeSeparator();
 		menu.add("Exit", menu.close);
 	}
@@ -154,11 +155,20 @@ export default function Menu() {
 				type: 'input', name: 'address',
 				message: 'Wallet address: ',
 			}, {
-				type: 'confirm', name: 'create',
+				type: 'confirm', name: 'confirm',
 				message: 'Create game?',
 			}
 		])
 		.then(onCreate);
+	}
+
+	this.askConfirm = (msg, onConfirm) => {
+		inquirer
+		.prompt([{
+			type: 'confirm', name: 'confirm',
+			message: msg,
+		}])
+		.then(onConfirm);
 	}
 
 }
