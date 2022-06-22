@@ -126,7 +126,7 @@ export default function CliRender(gameState) {
 
 	var drawPanelGameInfo = (origin) => {
 		var playerTag = (matchTag) =>{
-			var isMe = gameState.getUserTag() == matchTag;
+			var isMe = gameState.getPlayerTag() == matchTag;
 			var lbl = isMe ? ci.tag_me + "me" : ""/*ci.tag_he + "opponent"*/;
 			return isMe ? ci.lbl +" (" + lbl + ci.lbl +")" : "";
 		}
