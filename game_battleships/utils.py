@@ -5,10 +5,12 @@ def convertToInt(val, defaultVal = 0):
 		return defaultVal
 
 def convertAsciiByteTextToString(text):
-	 return bytearray.fromhex(str(text).replace("0x", "")).decode()
+	return bytes.fromhex(hex[2:]).decode("utf-8")
+	#return bytearray.fromhex(str(text).replace("0x", "")).decode()
 	 
 def convertStringToAsciiByteText(text):
-	return "0x" + bytearray(text, "ascii").hex()
+	return "0x" + str.encode("utf-8").hex()
+	#return "0x" + bytearray(text, "ascii").hex()
 
 def getKeySafe(data, key, defaultVal):
 	return data[key] if not data is None and key in data else defaultVal
