@@ -1,5 +1,5 @@
-from bs_game.utils import *
-from bs_game.log import *
+from game_battleships.utils import *
+from game_battleships.log import *
 
 class BSTest:
 	def __init__(self, _gameManager, _gameHandler):

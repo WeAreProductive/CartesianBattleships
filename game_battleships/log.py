@@ -1,4 +1,4 @@
-from bs_game.console import *
+from game_battleships.console import *
 import traceback
 
 #__logger = None

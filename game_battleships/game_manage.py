@@ -1,6 +1,6 @@
-from bs_game.game_data import *
-from bs_game.game_defaults import *
-from bs_game.errors import *
+from game_battleships.game_data import *
+from game_battleships.game_defaults import *
+from game_battleships.errors import *
 # from bs_game.log_dump import *
 
 # def processSystemCommand(_gameState, cmd):

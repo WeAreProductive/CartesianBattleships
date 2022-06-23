@@ -17,7 +17,7 @@
 #	After that the other player should respond with the same command to declare win.
 #	With the <decryption key> argument the player provides own key to decrypt his board that was initially provided.
 
-from bs_game.utils import *
+from game_battleships.utils import *
 
 class Command:
 	raw = ""

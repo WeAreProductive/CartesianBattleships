@@ -1,5 +1,5 @@
 from os import environ
-from bs_game.utils import *
+from game_battleships.utils import *
 
 # Values -1 (or negative) means the option is inactive and no check will be performed based on it (i.e. unlimited)
 

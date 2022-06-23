@@ -1,7 +1,7 @@
-from bs_game.log import *
-from bs_game.errors import *
-from bs_game.game_data import *
-from bs_game.game_verify import *
+from game_battleships.log import *
+from game_battleships.errors import *
+from game_battleships.game_data import *
+from game_battleships.game_verify import *
 
 class BSGameLogic:
 	def __init__(self, gameState):

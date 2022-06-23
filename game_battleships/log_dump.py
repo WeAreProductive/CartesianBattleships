@@ -1,6 +1,6 @@
 from logging import log
-from bs_game.console import *
-from bs_game.log import *
+from game_battleships.console import *
+from game_battleships.log import *
 
 def dumpGameInfo(_gameState, spacers = True):
 	if _gameState is None: return

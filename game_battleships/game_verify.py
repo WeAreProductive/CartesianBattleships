@@ -1,4 +1,4 @@
-from bs_game.utils import *
+from game_battleships.utils import *
 
 def verifyGame(_gameState):
 	return None

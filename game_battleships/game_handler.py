@@ -1,9 +1,9 @@
-from bs_game.utils import *
-from bs_game.log_flow import *
-from bs_game.log_dump import *
-from bs_game.game_logic import *
-#from bs_game.protocol_text import *
-from bs_game.protocol_json import *
+from game_battleships.utils import *
+from game_battleships.log_flow import *
+from game_battleships.log_dump import *
+from game_battleships.game_logic import *
+#from game_battleships.protocol_text import *
+from game_battleships.protocol_json import *
 
 class BSGameHandler:
 

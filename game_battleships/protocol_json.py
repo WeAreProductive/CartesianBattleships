@@ -50,7 +50,7 @@
 #		Command type "e" has aliases "end" and "endgame" that can also be used.
 #		Response repeats request if valid and appends field "p" indicating playerTag (1 or 2).
 
-from bs_game.utils import *
+from game_battleships.utils import *
 import json
 
 class Command:

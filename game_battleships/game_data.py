@@ -1,5 +1,5 @@
 from os import environ
-from bs_game.utils import *
+from game_battleships.utils import *
 
 class BSGameRules:
 	boardSizeX = convertToInt(environ.get("CBS_RULE_BOARD_SX"), 8)

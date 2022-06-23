@@ -1,6 +1,6 @@
-from bs_game.console import *
-from bs_game.log import *
-from bs_game.log_dump import *
+from game_battleships.console import *
+from game_battleships.log import *
+from game_battleships.log_dump import *
 
 def dumpPlayerMsg(_gameState, cmd, response):
 	logI(f"{cc.sep}===== User message (from {cmd.sender}) >>> ====={cc.NC}")
