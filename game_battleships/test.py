@@ -15,7 +15,7 @@ class BSTest:
 	def send(self, gid, playerTag, payload):
 		logI("")
 		plaeyerId = self.getPlayerAddressByTag(playerTag)
-		body = { "metadata": { "msg_sender": plaeyerId }, "payload": convertStringToAsciiByteText(payload.replace("#gid", gid)) }
+		body = { "metadata": { "msg_sender": plaeyerId }, "payload": convertStringToHexBytes(payload.replace("#gid", gid)) }
 		response = self._gameHandler.processAdvance(self._gameManager, body)
 
 	def run(self):

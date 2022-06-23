@@ -9,7 +9,7 @@ class BSGameHandler:
 
 	def processAdvance(self, _gameManager, body):
 		try:
-			payload = convertAsciiByteTextToString(body["payload"])
+			payload = convertHexBytesToString(body["payload"])
 		except:
 			payload = ""
 		try:
