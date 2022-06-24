@@ -5,11 +5,11 @@ def convertToInt(val, defaultVal = 0):
 		return defaultVal
 
 def convertHexBytesToString(text):
-	return bytes.fromhex(hex[2:]).decode("utf-8")
+	return bytes.fromhex(text[2:]).decode("utf-8")
 	#return bytearray.fromhex(str(text).replace("0x", "")).decode()
 	 
 def convertStringToHexBytes(text):
-	return "0x" + str.encode("utf-8").hex()
+	return "0x" + str(text).encode("utf-8").hex()
 	#return "0x" + bytearray(text, "ascii").hex()
 
 def getKeySafe(data, key, defaultVal):
