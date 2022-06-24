@@ -77,14 +77,20 @@ handlers = {
 finish = {"status": "accept"}
 rollup_address = None
 
-while True:
-	response = requests.post(rollup_server + "/finish", json=finish)
-	if response.status_code != 202:
-		rollup_request = response.json()
-		metadata = rollup_request["data"]["metadata"]
-		if metadata["epoch_index"] == 0 and metadata["input_index"] == 0:
-			rollup_address = metadata["msg_sender"]
-			logI(f"Captured rollup address: {rollup_address}")
-		else:
-			handler = handlers[rollup_request["request_type"]]
-			finish["status"] = handler(rollup_request["data"])
+try:
+	while True:
+		response = requests.post(rollup_server + "/finish", json=finish)
+		if response.status_code != 202:
+			rollup_request = response.json()
+			metadata = rollup_request["data"]["metadata"]
+			if metadata["epoch_index"] == 0 and metadata["input_index"] == 0:
+				rollup_address = metadata["msg_sender"]
+				logI(f"Captured rollup address: {rollup_address}")
+			else:
+				handler = handlers[rollup_request["request_type"]]
+				finish["status"] = handler(rollup_request["data"])
+
+except KeyboardInterrupt:
+	logI(f"{cc.exception}Interrupted by user.{cc.NC}")
+except Exception as ex:
+	logEX(ex)
