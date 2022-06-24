@@ -7,16 +7,16 @@ from game_battleships.protocol_json import *
 
 class BSGameHandler:
 
-	def processAdvance(self, _gameManager, body):
+	def processAdvance(self, _gameManager, data):
 		try:
-			payload = convertHexBytesToString(body["payload"])
+			payload = convertHexBytesToString(data["payload"])
 		except:
 			payload = ""
 		try:
-			sender = str(body["metadata"]["msg_sender"]).lower()
+			sender = str(data["metadata"]["msg_sender"]).lower()
 		except:
 			sender = ""
-
+	
 		responsePayload = None
 		try:
 			cmd = Command(sender, payload)
