@@ -21,6 +21,10 @@ def logEX(ex):
 	__logger.error(f"{cc.exception}Exception: {str(ex)}{cc.NC}")
 	__logger.error(f"{cc.exception}Traceback: {traceback_str}{cc.NC}")
 
+def formatEX(ex):
+    traceback_str = ''.join(traceback.format_tb(ex.__traceback__))
+    return "Exception: " + str(ex) + "; " + traceback_str
+
 def printLogo():
 	logI(f"")
 	logI(f"")
