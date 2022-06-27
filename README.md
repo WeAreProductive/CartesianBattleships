@@ -56,10 +56,11 @@ $ . .env/bin/activate
 $ pip install -r requirements.txt
 $ deactivate
 ```
-The first line will create an virtual environment named `.env`.
-The second line will enter the newly created virtual environment.
-The third line will install the required Python libraries, this is need the first time only.
-When inside the virtual environment just type `deactivate` to exit back to the terminal.
+
+1. The first line will create an virtual environment named **.env**.
+2. The second line will enter the newly created virtual environment.
+3. The third line will install the required Python libraries, this is need the first time only.
+4. When inside the virtual environment just type `deactivate` to exit back to the terminal.
 
 Once having the environment setup the Battleship game server can be started with the following command in a dedicated terminal:
 
@@ -71,45 +72,40 @@ $ ROLLUP_HTTP_SERVER_URL="http://127.0.0.1:5004" python3 battleships.py
 After the server successfully starts, it should print an output like the following:
 
 ```
-[6047] [INFO] Starting gunicorn 19.9.0
-[6047] [INFO] Listening at: http://0.0.0.0:5003 (6047)
-[6047] [INFO] Using worker: sync
-[6049] [INFO] Booting worker with pid: 6049
-INFO in log: HTTP dispatcher url is http://127.0.0.1:5004
-INFO in log: 
-INFO in log: 
-INFO in log:      Cartesi                            .) |
-INFO in log:    Battleships                       ____|_|_(.
-INFO in log:                                      _\______|
-INFO in log:                                    _/________|_//_
-INFO in log:                _______            /   <<<         |
-INFO in log:                \ ...  \___[\\\]__/_________[///]__|___F
-INFO in log:    __4__        \                                     |
-INFO in log:    \   /         \   V            <<<      <<<        /
-INFO in log: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-INFO in log: ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-INFO in log:  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
-INFO in log: 
-INFO in log: 
+INFO:__main__:HTTP rollup_server url is http://127.0.0.1:5004
+INFO:__main__:
+INFO:__main__:
+INFO:__main__:     Cartesi                            .) |
+INFO:__main__:   Battleships                       ____|_|_(.
+INFO:__main__:                                     _\______|
+INFO:__main__:                                   _/________|_//_
+INFO:__main__:               _______            /   <<<         |
+INFO:__main__:               \ ...  \___[\\\]__/_________[///]__|___F
+INFO:__main__:   __4__        \                                     |
+INFO:__main__:   \   /         \   V            <<<      <<<        /
+INFO:__main__:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO:__main__:~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+INFO:__main__: ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+INFO:__main__:
 ```
 
 When a new game command is sent by client, it should be seen processed by the game server and the game state shown as follows:
 
 ```shell
-INFO in log: ===== User message (from 0x70997970c51812dc3a010c7d01b50e0d17dc79c8) >>> =====
-INFO in log: (Sender/Command/Response) p2: {"gid":"1", "cmd":"m", "arg":{ "shot": [2, 0] } } -> {"gid": "1", "cmd": "m", "arg": {"shot": [2, 0]}, "p": 2}
-INFO in log: Game: 1
-INFO in log: Turn 3: Player 2 was missed  and shoots at X=2 Y=0
-INFO in log: Players 1 and 2 boards:
-INFO in log: [~ ~ * ~ ~ ~ ~ ~]    [~ M ~ ~ ~ ~ ~ ~]
-INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
-INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
-INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
-INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
-INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
-INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
-INFO in log: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
-INFO in log: ===== User message <<< =====
+INFO:__main__: ===== User message (from 0x70997970c51812dc3a010c7d01b50e0d17dc79c8) >>> =====
+INFO:__main__: (Sender/Command/Response) p2: {"gid":"1", "cmd":"m", "arg":{ "shot": [2, 0] } } -> {"gid": "1", "cmd": "m", "arg": {"shot": [2, 0]}, "p": 2}
+INFO:__main__: Game: 1
+INFO:__main__: Turn 3: Player 2 was missed  and shoots at X=2 Y=0
+INFO:__main__: Players 1 and 2 boards:
+INFO:__main__: [~ ~ * ~ ~ ~ ~ ~]    [~ M ~ ~ ~ ~ ~ ~]
+INFO:__main__: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO:__main__: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO:__main__: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO:__main__: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO:__main__: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO:__main__: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO:__main__: [~ ~ ~ ~ ~ ~ ~ ~]    [~ ~ ~ ~ ~ ~ ~ ~]
+INFO:__main__: ===== User message <<< =====
 ```
 
 The server will run indefinitely untill stopped with `Ctrl+C` or `Ctrl+Z` key combination.
