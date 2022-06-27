@@ -57,7 +57,7 @@ $ pip install -r requirements.txt
 $ deactivate
 ```
 
-1. The first line will create an virtual environment named **.env**.
+1. The first line will create a new virtual environment named **.env**.
 2. The second line will enter the newly created virtual environment.
 3. The third line will install the required Python libraries, this is need the first time only.
 4. When inside the virtual environment just type `deactivate` to exit back to the terminal.
@@ -118,7 +118,7 @@ $ docker-compose -f ./docker-compose.yml -f ./docker-compose.override.yml -f ./d
 
 ## Running the Battleships game server in Test mode
 
-The game server can be run in TEST mode. This runs and plays a game with predefined moves jsut to show how the gameplay should look at server side. To do so add TEST="1" as environment parameter:
+The game server can be run in TEST mode. This runs and plays a game with predefined moves jsut to show how the gameplay should look at server side. To do so add `TEST="1"` as environment parameter:
 
 ```shell
 $ TEST="1" ROLLUP_HTTP_SERVER_URL="http://127.0.0.1:5004" python3 battleships.py
