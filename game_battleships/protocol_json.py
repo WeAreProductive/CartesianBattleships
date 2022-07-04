@@ -15,7 +15,7 @@
 #	- Create game
 #			{ "cmd":"c", 
 #			  "sys": { "reqId":"<requestId>", "invite":["<userWalletAddress>", ...] },
-#			  "arg": { "rules":{"size":[<boardSizeX>, <boardSizeX>], ships:"5:1 4:1 3:2 3:1"} }}
+#			  "arg": { "rules":{"size":[<boardSizeX>, <boardSizeX>], ships:{"5": 1, "4": 1, "3": 2, "2": "2"} } }}
 #
 #		User creates new game.
 #		<requestId> is a user generated id used to identify the response at client side (should be unique per user)
@@ -137,12 +137,22 @@ class Command:
 		self.__addPlayerTag(data)
 		return json.dumps(data)
 
-	def getResponse_c(self, gameId, timeout):
-		data = self.__copyRaw()
-		ensureKey(data, "sys", {})
-		data["gid"] = gameId
-		data["sys"]["owner"] = self.sender
-		data["sys"]["timeout"] = timeout
+	def getResponse_c(self, gameState, timeout):
+		#data = self.__copyRaw()
+		data = {
+			"cmd": "c",
+			"gid": gameState.getGameId(),
+			"sys": {
+				"reqId": gameState.getGameTokenCreate(),
+				"owner": gameState.getGameOwner(),
+				"invite": gameState.getInvite(),
+				"timeout": timeout
+			},
+			"args": { "rules": {
+				"size": [gameState._gameRules.boardSizeX, gameState._gameRules.boardSizeY],
+				"ships": gameState._gameRules.ships
+			}}
+		}
 		return json.dumps(data)
 
 	def getResponse_j(self):

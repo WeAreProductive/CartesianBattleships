@@ -2,13 +2,14 @@ from os import environ
 from game_battleships.utils import *
 
 class BSGameRules:
-	boardSizeX = convertToInt(environ.get("CBS_RULE_BOARD_SX"), 8)
-	boardSizeY = convertToInt(environ.get("CBS_RULE_BOARD_SY"), 8)
-	countShip5 = convertToInt(environ.get("CBS_RULE_SHIP_COUNT_5"), 1) # count of 5pin ships (Carrier)
-	countShip4 = convertToInt(environ.get("CBS_RULE_SHIP_COUNT_4"), 1) # count of 4pin ships (Cruiser)
-	countShip3 = convertToInt(environ.get("CBS_RULE_SHIP_COUNT_3"), 2) # count of 3pin ships (Submarine)
-	countShip2 = convertToInt(environ.get("CBS_RULE_SHIP_COUNT_2"), 2) # count of 2pin ships (Frigate)
-	timeoutTurn = convertToInt(environ.get("CBS_TIMEOUT_TURN"), 180) # player turn timeout [minutes]
+	boardSizeX = 10
+	boardSizeY = 10
+	ships = { "5": 1, "4": 1, "3": 2, 2: "2" }
+	#countShip5 = 1 # count of 5pin ships (Carrier)
+	#countShip4 = 1 # count of 4pin ships (Cruiser)
+	#countShip3 = 2 # count of 3pin ships (Submarine)
+	#countShip2 = 2 # count of 2pin ships (Frigate)
+	timeoutTurn = 180 # player turn timeout [minutes]
 #_gameRules = BSGameRules()
 
 
@@ -47,6 +48,7 @@ class BSGameStateBase:
 	def getGameId(self): return self.descriptor.gameId
 	def getGameOwner(self): return self.descriptor.owner
 	def getGameTokenCreate(self): return self.descriptor.tokenCreate
+	def getInvite(self): return self.descriptor.invite
  
 	def isUserOwner(self, address): return self.getGameOwner() == address
 

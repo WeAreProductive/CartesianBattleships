@@ -58,6 +58,25 @@ class BSGameManager:
 			raise(AdvanceProcessError("sys", "limit-owner-games"))
 		# TODO: validate: game rules
 
+	def __limitBoardSize(self, sz):
+		val = convertToInt(sz)
+		if val < 5: return 5
+		if val > 25: return 25
+		return val
+
+	def __processGameRules(self, args):
+			rules = args["rules"]
+			gameRules = BSGameRules()
+
+			boardSize = getKeySafe(rules, "size")
+			if isinstance(boardSize, list) and len(boardSize) >= 1:
+				gameRules.boardSizeX = self.__limitBoardSize(boardSize[0])
+				gameRules.boardSizeY = self.__limitBoardSize(boardSize[1 if len(boardSize) >= 2 else 0])
+
+			boardSize = getKeySafe(rules, "size", None)
+
+			return gameRules
+
 	def processPlayerCommand(self, cmd):
 		responsePayload = None
 
@@ -65,9 +84,10 @@ class BSGameManager:
 		if cmd.cmdType == 'c':
 			args = cmd.getArgs_c()
 			self.__validateNewGame(cmd, args)
+			gameRules = self.__processGameRules(args)
 			gameId = self.__generateGameId()
-			gameState = BSGameState(GameDescriptor(gameId, cmd.sender, args["reqId"], args["invite"]), BSGameRules())
+			gameState = BSGameState(GameDescriptor(gameId, cmd.sender, args["reqId"], args["invite"]), gameRules)
 			self.__games.append(gameState)
-			responsePayload = cmd.getResponse_c(gameId, self.__defaults.timeoutGame)
+			responsePayload = cmd.getResponse_c(gameState, self.__defaults.timeoutGame)
 
 		return responsePayload
