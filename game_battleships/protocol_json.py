@@ -148,7 +148,7 @@ class Command:
 				"invite": gameState.getInvite(),
 				"timeout": timeout
 			},
-			"args": { "rules": {
+			"arg": { "rules": {
 				"size": [gameState._gameRules.boardSizeX, gameState._gameRules.boardSizeY],
 				"ships": gameState._gameRules.ships
 			}}
