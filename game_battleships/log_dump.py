@@ -8,7 +8,8 @@ def dumpGameInfo(_gameState, spacers = True):
 	if spacers: logI(f"{cc.sep}===== Game Info >>> ====={cc.NC}")
 	logI(f"Game ID: {cc.id}{_gameState.gameId}{cc.NC}")
 	logI(f"Board size: {_gameRules.boardSizeX}x{_gameRules.boardSizeY}{cc.NC}")
-	logI(f"Ships on board:{cc.NC} {_gameRules.countShip5} 5pin (Carrier), {_gameRules.countShip4} 4pin (Cruiser), {_gameRules.countShip3} 3pin (Submarine), {_gameRules.countShip2} 2pin (Frigate)")
+	# TODO: log ships
+	#logI(f"Ships on board:{cc.NC} {_gameRules.countShip5} 5pin (Carrier), {_gameRules.countShip4} 4pin (Cruiser), {_gameRules.countShip3} 3pin (Submarine), {_gameRules.countShip2} 2pin (Frigate)")
 	logI(f"Player turn timeout:{cc.NC} {_gameRules.timeoutTurn} minutes")
 	logI(f"Player 1 ID: {cc.id}{_gameState.player1.Id}{cc.NC}")
 	logI(f"Player 2 ID: {cc.id}{_gameState.player2.Id}{cc.NC}")
