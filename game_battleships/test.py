@@ -22,7 +22,8 @@ class BSTest:
 		logI(f"{cc.test}-=-=-= Start test =-=-=-{cc.NC}")
 		try:
 			#self.runTest1()
-			self.runTest3()
+			#self.runTest3()
+			self.runTest4()
 		except Exception as ex:
 			logEX(ex)
 		
@@ -103,18 +104,31 @@ class BSTest:
 
 		self.send("", 1, '{"cmd":"c", "sys": { "reqId": "222", "invite": ["0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"] }, "arg": { "rules":{"size":[8, 8] } } }')
 		self.send(gid2, 1, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
-  
+
 		self.send("", 2, '{"cmd":"c", "sys": { "reqId": "222", "invite": ["0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"] }, "arg": { "rules":{"size":[8, 8] } } }')
-  
+
 		self.send(gid1, 2, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
 		self.send(gid2, 3, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
-  
+
 		self.send(gid3, 3, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
 		self.send(gid3, 2, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
-  
-  
+
+
 		self.send(gid1, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [1, 0] } }')
 		self.send(gid2, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [1, 1] } }')
 
 		self.send(gid1, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [2, 0] } }')
 		self.send(gid2, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [2, 1] } }')
+
+	def runTest4(self):
+		gid1 = "1"
+		gid2 = "2"
+		gid3 = "3"
+
+		#self.send("", 1, '{"cmd":"c", "sys": { "reqId": "111", "invite": ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8"] }, "arg": { "rules":{"size":[15, 15] } } }')
+		self.send("", 1, '{"cmd":"c", "sys": { "reqId": "111", "invite": ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8"] }, "arg": { "rules":{"size":[15] } } }')
+
+		self.send(gid1, 1, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
+		self.send(gid1, 2, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
+
+		self.send(gid1, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [12, 12] } }')
