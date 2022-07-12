@@ -1,5 +1,5 @@
 {
   "fs": {
-    "files": ["battleships.py", "entrypoint.sh"]
+    "files": ["battleships.py", "entrypoint.sh", "game_battleships"]
   }
 }
