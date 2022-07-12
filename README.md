@@ -18,21 +18,19 @@ $ cd CartesianBattleships
 $ docker buildx bake -f docker-bake.hcl -f docker-bake.override.hcl --load
 ```
 
-## Running the environment
-
-TODO:
+## Running the environment in production mode
 
 In order to start the containers in production mode, run:
 
 ```shell
-$ docker-compose -f ./docker-compose.yml -f ./docker-compose.override.yml -f ./docker-compose-host.yml up
+$ docker compose up
 ```
 
 To stop the containers, first end the process with `Ctrl + C`.
 Then, remove the containers and associated volumes by executing:
 
 ```shell
-$ docker-compose -f ./docker-compose.yml -f ./docker-compose.override.yml -f ./docker-compose-host.yml down -v
+$ docker compose down -v
 ```
 
 ## Running the environment in host mode
@@ -42,7 +40,7 @@ When developing an application, it is often important to easily test and debug i
 The first step is to run the environment in host mode using the following command:
 
 ```shell
-$ docker-compose -f ./docker-compose.yml -f ./docker-compose.override.yml -f ./docker-compose-host.yml up
+$ docker compose -f ./docker-compose.yml -f ./docker-compose.override.yml -f ./docker-compose-host.yml up
 ```
 
 The next step is to run the game server in your machine. The application is written in Python, so you need to have `python3` installed.
@@ -113,7 +111,7 @@ The server will run indefinitely untill stopped with `Ctrl+C` or `Ctrl+Z` key co
 Finally, to stop the containers, removing any associated volumes, execute:
 
 ```shell
-$ docker-compose -f ./docker-compose.yml -f ./docker-compose.override.yml -f ./docker-compose-host.yml down -v
+$ docker compose -f ./docker-compose.yml -f ./docker-compose.override.yml -f ./docker-compose-host.yml down -v
 ```
 
 ## Running the Battleships game server in Test mode
