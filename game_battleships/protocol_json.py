@@ -99,7 +99,7 @@ class Command:
 
 	def __addPlayerTag(self, data):
 		if not self.playerTag is None and self.playerTag != 0:
-			data["p"] = self.playerTag
+			data["arg"]["p"] = self.playerTag
 
 
 # command arguments
