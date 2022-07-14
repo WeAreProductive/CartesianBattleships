@@ -4,7 +4,7 @@ from game_battleships.utils import *
 class BSGameRules:
 	boardSizeX = 10
 	boardSizeY = 10
-	ships = { "5": 1, "4": 1, "3": 2, 2: "2" }
+	ships = { "5": 1, "4": 1, "3": 2, "2": 2 }
 	#countShip5 = 1 # count of 5pin ships (Carrier)
 	#countShip4 = 1 # count of 4pin ships (Cruiser)
 	#countShip3 = 2 # count of 3pin ships (Submarine)
