@@ -13,9 +13,14 @@
 # Protocol commands description:
 #
 #	- Create game
+#		request:
 #			{ "cmd":"c", 
 #			  "sys": { "reqId":"<requestId>", "invite":["<userWalletAddress>", ...] },
 #			  "arg": { "rules":{"size":[<boardSizeX>, <boardSizeX>], ships:{"5": 1, "4": 1, "3": 2, "2": "2"} } }}
+#		response:
+#			{ "gid": "<gameId>", "cmd":"c", 
+#			  "sys": { "reqId":"<requestId>", "owner": "<creatorWalletAddress>", "invite":["<invitedUserWalletAddress>", ...], "timeout": <timeout> },
+#			  "arg": { "rules":{"size":[<boardSizeX>, <boardSizeX>], ships:{"5": 1, "4": 1, "3": 2, "2": 2} } }}
 #
 #		User creates new game.
 #		<requestId> is a user generated id used to identify the response at client side (should be unique per user)
@@ -27,14 +32,20 @@
 #			"sys"."timeout" - game timeout
 #
 #	- Join game
+#		request:
 #			{ "gid": "<gameId>", "cmd":"j", "arg": { "board": "<encrypted board>" } }
+#		response:
+#			{ "gid": "<gameId>", "cmd":"j", "arg": { "board": "<encrypted board>", "p": <playerTag> } }
 #
 #		Player joins game and provides board positions in encrypted form with the <encrypted board> argument.
 #		Command type "j" has aliases "join" and "joingame" that can also be used.
 #		Response repeats request if valid and appends field "p" indicating playerTag (1 or 2).
 #
 #	- Move
+#		request:
 #			{ "gid": "<gameId>", "cmd":"m", "arg": { "hit": <wasHit>, "shot": [<X>, <Y>] } }
+#		response:
+#			{ "gid": "<gameId>", "cmd":"m", "arg": { "hit": <wasHit>, "shot": [<X>, <Y>], "p": <playerTag> } }
 #
 #		Player sends move, first with the <wasHit> argument confirm if previous shot by the opponent was
 #		hit or miss (0 or 1) then the player shoots at guess location addressed by <X> and <Y> coordinates.
@@ -42,7 +53,10 @@
 #		Response repeats request if valid and appends field "p" indicating playerTag (1 or 2).
 #
 #	- End game
+#		request:
 #			{ "gid": "<gameId>", "cmd":"e", "arg": { "key": "<decryption key>" } }
+#		response:
+#			{ "gid": "<gameId>", "cmd":"e", "arg": { "key": "<decryption key>", "result": "win|defeat", "p": <playerTag> } }
 #
 #		The first player to send this command declares defeat (all his fleet is destroyed).
 #		After that the other player should respond with the same command to declare win.
