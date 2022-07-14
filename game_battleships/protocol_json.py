@@ -101,7 +101,8 @@ class Command:
 		if not self.playerTag is None and self.playerTag != 0:
 			data["p"] = self.playerTag
 
-	# command arguments
+
+# command arguments
  
 	def getArgs_c(self):
 		invite = getKeySafe(self.cmdSys, "invite", [])
@@ -127,7 +128,8 @@ class Command:
 		hit = convertToInt(args["hit"]) if "hit" in args else 0
 		return { "hit": hit, "x": shot[0], "y": shot[1] }
 
-	# command responses
+
+# command responses
 
 	def getResponse_error(self, msg):
 		data = { "error": msg}
