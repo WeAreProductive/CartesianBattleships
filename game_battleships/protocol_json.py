@@ -138,10 +138,9 @@ class Command:
 		return json.dumps(data)
 
 	def getResponse_c(self, gameState, timeout):
-		#data = self.__copyRaw()
 		data = {
-			"cmd": "c",
 			"gid": gameState.getGameId(),
+			"cmd": "c",
 			"sys": {
 				"reqId": gameState.getGameTokenCreate(),
 				"owner": gameState.getGameOwner(),
@@ -156,17 +155,39 @@ class Command:
 		return json.dumps(data)
 
 	def getResponse_j(self):
-		data = self.__copyRaw()
+		args = self.getArgs_j()
+		data = {
+			"gid": self.gameId,
+			"cmd": "j",
+			"arg": {
+				"board": getKeySafe(args, "board", ""),
+			}
+		}
 		self.__addPlayerTag(data)
 		return json.dumps(data)
 
 	def getResponse_e(self, win):
-		data = self.__copyRaw()
+		args = self.getArgs_e()
+		data = {
+			"gid": self.gameId,
+			"cmd": "e",
+			"arg": {
+				"key": getKeySafe(args, "key", ""),
+				"result": "win" if win else "defeat"
+			}
+		}
 		self.__addPlayerTag(data)
-		data["result"] = "win" if win else "defeat"
 		return json.dumps(data)
 
 	def getResponse_m(self):
-		data = self.__copyRaw()
+		args = self.getArgs_m()
+		data = {
+			"gid": self.gameId,
+			"cmd": "m",
+			"arg": {
+				"hit": getKeySafe(args, "hit", 0),
+				"shot": [ getKeySafe(args, "x"), getKeySafe(args, "y") ]
+			}
+		}
 		self.__addPlayerTag(data)
 		return json.dumps(data)
