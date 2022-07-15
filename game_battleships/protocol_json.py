@@ -146,10 +146,12 @@ class Command:
 # command responses
 
 	def getResponse_error(self, msg):
-		data = { "error": msg}
+		data = {}
 		if not self.gameId is None: data["gid"] = self.gameId
 		reqId = getKeySafe(self.cmdSys, "reqId", None)
 		if not reqId is None: data["reqId"] = reqId
+		data["error"] = msg
+		data["arg"] = {}
 		self.__addPlayerTag(data)
 		return json.dumps(data)
 
