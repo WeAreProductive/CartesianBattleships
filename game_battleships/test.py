@@ -31,41 +31,7 @@ class BSTest:
 			logEX(ex)
 		
 	def runTest1(self):
-		self.send(1, "j: xxx123")
-		self.send(1, "j: xxx123")
-		self.send(2, "j: ccc123")
-		self.send(2, "j: ccc123")
-
-
-		#self.send(3, "p3 m: 0 1 1")
-		
-		#self.send(1, "p1 x: xxx")
-		
-
-		self.send(1, "m: 0 1 0")
-		self.send(1, "m: 0 1 1")
-		self.send(2, "m: 1 2 3")
-		self.send(1, "m: 0 3 4")
-		self.send(2, "m: 0 0 1")
-		self.send(1, "m: 0 3 2")
-		self.send(2, "m: 0 0 2")
-		self.send(1, "m: 1 4 5")
-		
-		#dumpGameplayMoves(_gameState)
-		
-		#self.send(1, "e: rrr111")
-		#self.send(1, "e: rrr111")
-
-		self.send(2, "e: rrr111")
-		#self.send(2, "e: rrr111")
-		#dumpGamePlayers(_gameState)
-		self.send(1, "e: rrr111")
-		#self.send(1, "e: rrr111")
-		#dumpGamePlayers(_gameState)
-
-		#logI(f">>>>>>>>>> player turn {_gameState.status}")
-		#processAdvance(2, "m: 0 4 4")
-		#dumpGameplayBoards(_gameState)
+		self.runTest4()
 
 
 	def runTest2(self):
