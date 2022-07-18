@@ -15,6 +15,10 @@ def logE(ex):
 	global __logger
 	__logger.error(f"{cc.exception}Exception: {str(ex)}{cc.NC}")
 
+def logErr(msg):
+	global __logger
+	__logger.error(f"{cc.exception}Error: {str(msg)}{cc.NC}")
+
 def logEX(ex):
 	global __logger
 	traceback_str = ''.join(traceback.format_tb(ex.__traceback__))
