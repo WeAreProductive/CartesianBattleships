@@ -38,9 +38,8 @@ printLogo()
 _gameManager = BSGameManager()
 _gameHandler = BSGameHandler()
 
-# Run tests
-if environ.get("TEST") == "1":
-	BSTest(_gameManager, _gameHandler).run()
+# Run tests if specified
+BSTest(_gameManager, _gameHandler).run(environ.get("TEST"))
 
 # Setup handlers
 def handle_advance(data):

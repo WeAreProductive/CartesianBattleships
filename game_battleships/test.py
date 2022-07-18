@@ -18,12 +18,15 @@ class BSTest:
 		body = { "metadata": { "msg_sender": plaeyerId, "epoch_index": 0, "input_index": 0 }, "payload": convertStringToHexBytes(payload.replace("#gid", str(gid) + "_0_0")) }
 		response = self._gameHandler.processAdvance(self._gameManager, body)
 
-	def run(self):
+	def run(self, testName):
+		if testName is None: return
+
 		logI(f"{cc.test}-=-=-= Start test =-=-=-{cc.NC}")
 		try:
-			#self.runTest1()
-			self.runTest3()
-			#self.runTest4()
+			if testName == "1":  self.runTest1(); return
+			if testName == "3":  self.runTest3(); return
+			if testName == "4":  self.runTest4(); return
+			logErr("Test with such name does not exist!")
 		except Exception as ex:
 			logEX(ex)
 		
