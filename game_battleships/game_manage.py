@@ -48,7 +48,7 @@ class BSGameManager:
 			raise(AdvanceProcessError("sys", "no-requestId"))
 		countGames = 0
 		for g in self.__games:
-			if g.getGameOwner() == cmd.sender:
+			if g.getGameOwner() == cmd.getSender():
 				countGames += 1
 				if g.getGameTokenCreate() == args["reqId"]:
 					# error: requestId suplication (a game with the same requestId is already created by this owner)
@@ -86,7 +86,7 @@ class BSGameManager:
 			self.__validateNewGame(cmd, args)
 			gameRules = self.__processGameRules(args)
 			gameId = self.__generateGameId()
-			gameState = BSGameState(GameDescriptor(gameId, cmd.sender, args["reqId"], args["invite"]), gameRules)
+			gameState = BSGameState(GameDescriptor(gameId, cmd.getSender(), args["reqId"], args["invite"]), gameRules)
 			self.__games.append(gameState)
 			responsePayload = cmd.getResponse_c(gameState, self.__defaults.timeoutGame)
 

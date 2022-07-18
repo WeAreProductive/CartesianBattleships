@@ -68,17 +68,22 @@ from game_battleships.utils import *
 import json
 
 class Command:
-	sender = ""
-	raw = ""
+	messageData = None
 	gameId = ""
 	playerTag = 0
 	cmdType = ""
 	cmdArgs = ""
 	cmdSys = ""
 
-	def __init__(self, sender, payload):
-		self.sender = sender
-		self.__parsePayload(payload)
+	def __init__(self, messageData):
+		self.messageData = messageData
+		self.__parsePayload()
+	
+	def getSender(self):
+		return self.messageData.sender
+
+	def getRawData(self):
+		return self.messageData.payload
 
 	def syncPlayerTag(self, playerTag):
 		self.playerTag = playerTag
@@ -91,10 +96,9 @@ class Command:
 		if self.cmdType == "j" or self.cmdType == "m" or self.cmdType == "e":
 			return "game"
 
-	def __parsePayload(self, payload):
-		self.raw = str(payload)
+	def __parsePayload(self):
 		try:
-			data = json.loads(self.raw)
+			data = json.loads(self.getRawData())
 			self.gameId = str(getKeySafe(data, "gid", "")).lower()
 			self.cmdType = str(getKeySafe(data, "cmd", "")).lower()
 			self.cmdArgs = getKeySafe(data, "arg", {})
@@ -108,8 +112,8 @@ class Command:
 		except:
 			return {}
 
-	def __copyRaw(self):
-		return self.__parsePayload(self.raw)
+	#def __copyRaw(self):
+	#	return self.__parsePayload(self.getRawData())
 
 	def __addPlayerTag(self, data):
 		if not self.playerTag is None and self.playerTag != 0:
@@ -122,7 +126,7 @@ class Command:
 		invite = getKeySafe(self.cmdSys, "invite", [])
 		for i in range(len(invite)): invite[i] = invite[i].lower()
 		return { \
-			"owner": self.sender, \
+			"owner": self.getSender(), \
 			"reqId": getKeySafe(self.cmdSys, "reqId", None), \
 			"invite": invite, \
 			"rules": getKeySafe(self.cmdArgs, "rules", []) \

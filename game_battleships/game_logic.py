@@ -87,7 +87,7 @@ class BSGameLogic:
 			if board is None or board.strip() == "":
 				raise(AdvanceProcessError("game", "invalid-board"))
 			# add player
-			player = self.__addPlayer(cmd.sender, board)
+			player = self.__addPlayer(cmd.getSender(), board)
 			# prepare response
 			cmd.syncPlayerTag(player.tag)
 			responsePayload = cmd.getResponse_j()

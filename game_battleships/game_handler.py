@@ -5,24 +5,24 @@ from game_battleships.game_logic import *
 #from game_battleships.protocol_text import *
 from game_battleships.protocol_json import *
 
+class BSMessageData:
+	def __init__(self, data):
+		self.payload = convertHexBytesToString(getKeySafe(data, "payload", ""))
+		self.sender = str(getKeySafe(data, ["metadata", "msg_sender"], "")).lower()
+		self.epoch_index = convertToInt(getKeySafe(data, ["metadata", "epoch_index"]))
+		self.input_index = convertToInt(getKeySafe(data, ["metadata", "input_index"]))
+
 class BSGameHandler:
 
 	def processAdvance(self, _gameManager, data):
-		try:
-			payload = convertHexBytesToString(data["payload"])
-		except:
-			payload = ""
-		try:
-			sender = str(data["metadata"]["msg_sender"]).lower()
-		except:
-			sender = ""
+		md = BSMessageData(data)
 	
 		responsePayload = None
 		try:
-			cmd = Command(sender, payload)
+			cmd = Command(md)
 
 			gameState = _gameManager.getGame(cmd.gameId)
-			cmd.syncPlayerTag(gameState.getPlayerTagById(sender) if not gameState is None else 0)
+			cmd.syncPlayerTag(gameState.getPlayerTagById(md.sender) if not gameState is None else 0)
 
 			handlerClass = cmd.getHandlerClass()
 			if handlerClass == "debug":
