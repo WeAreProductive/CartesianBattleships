@@ -15,15 +15,15 @@ class BSTest:
 	def send(self, gid, playerTag, payload):
 		logI("")
 		plaeyerId = self.getPlayerAddressByTag(playerTag)
-		body = { "metadata": { "msg_sender": plaeyerId }, "payload": convertStringToHexBytes(payload.replace("#gid", gid)) }
+		body = { "metadata": { "msg_sender": plaeyerId, "epoch_index": 0, "input_index": 0 }, "payload": convertStringToHexBytes(payload.replace("#gid", str(gid) + "_0_0")) }
 		response = self._gameHandler.processAdvance(self._gameManager, body)
 
 	def run(self):
 		logI(f"{cc.test}-=-=-= Start test =-=-=-{cc.NC}")
 		try:
 			#self.runTest1()
-			#self.runTest3()
-			self.runTest4()
+			self.runTest3()
+			#self.runTest4()
 		except Exception as ex:
 			logEX(ex)
 		
@@ -115,10 +115,13 @@ class BSTest:
 
 
 		self.send(gid1, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [1, 0] } }')
-		self.send(gid2, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [1, 1] } }')
+		self.send(gid2, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [1, 1], "hit": 1 } }')
 
 		self.send(gid1, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [2, 0] } }')
 		self.send(gid2, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [2, 1] } }')
+
+		self.send(gid1, 1, '{"gid":"#gid", "cmd":"e", "arg":{ "key": "reveal" } }')
+		self.send(gid1, 2, '{"gid":"#gid", "cmd":"e", "arg":{ "key": "reveal2" } }')
 
 	def runTest4(self):
 		gid1 = "1"
