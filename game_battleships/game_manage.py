@@ -33,11 +33,12 @@ class BSGameManager:
 		for g in self.__games:
 			if g.gameId == gameId: return g
 	
-	def __generateGameId(self):
+	def __generateGameId(self, messageData):
 		self.__seedGameId += 1
-		prefix = self.__defaults.prefixGameId
-		if prefix != "": prefix += ":"
-		return prefix + str(self.__seedGameId)
+		serverId = self.__defaults.serverId
+		if serverId != "": serverId = "_" + serverId
+		index = "_" + str(messageData.epoch_index) + "_" + str(messageData.input_index)
+		return str(self.__seedGameId) + index + serverId
 
 	def __validateNewGame(self, cmd, args):
 		if self.__defaults.limitGamesAll >=0 and len(self.__games) >= self.__defaults.limitGamesAll:
@@ -85,7 +86,7 @@ class BSGameManager:
 			args = cmd.getArgs_c()
 			self.__validateNewGame(cmd, args)
 			gameRules = self.__processGameRules(args)
-			gameId = self.__generateGameId()
+			gameId = self.__generateGameId(cmd.messageData)
 			gameState = BSGameState(GameDescriptor(gameId, cmd.getSender(), args["reqId"], args["invite"]), gameRules)
 			self.__games.append(gameState)
 			responsePayload = cmd.getResponse_c(gameState, self.__defaults.timeoutGame)
