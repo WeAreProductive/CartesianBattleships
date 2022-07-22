@@ -1,25 +1,6 @@
 from game_battleships.game_data import *
 from game_battleships.game_defaults import *
 from game_battleships.errors import *
-# from bs_game.log_dump import *
-
-# def processSystemCommand(_gameState, cmd):
-# 	if (cmd == "dump-info"):
-# 		dumpGameInfo(_gameState)
-# 	if (cmd == "dump-players"):
-# 		dumpGamePlayers(_gameState)
-# 	if (cmd == "dump-boards"):
-# 		dumpGameplayBoards(_gameState)
-# 	if (cmd == "dump-moves"):
-# 		dumpGameplayMoves(_gameState)
-# 	if (cmd == "dump-all"):
-# 		dumpAll()
-# 	#if (cmd == "reset-game"):
-# 	#	_gameState.reset()
-# 		#_gameState = BSGameState(_gameState)
-# 	#if (cmd == "quit"):
-# 	#	logI("Shutdown!")
-# 	#	os.system("shutdown")
 
 class BSGameManager:
 	__games = []
@@ -52,7 +33,7 @@ class BSGameManager:
 			if g.getGameOwner() == cmd.getSender():
 				countGames += 1
 				if g.getGameTokenCreate() == args["reqId"]:
-					# error: requestId suplication (a game with the same requestId is already created by this owner)
+					# error: requestId duplication (a game with the same requestId is already created by this owner)
 					raise(AdvanceProcessError("sys", "duplicate-requestId"))
 		if self.__defaults.limitGamesOwner >=0 and countGames >= self.__defaults.limitGamesOwner:
 			# error: reached the limit of maximum allowed count of games for this owner
