@@ -76,8 +76,8 @@ handlers = {
 finish = {"status": "accept"}
 rollup_address = None
 
-try:
-	while True:
+while True:
+	try:
 		response = requests.post(rollup_server + "/finish", json=finish)
 		if response.status_code != 202:
 			rollup_request = response.json()
@@ -88,8 +88,8 @@ try:
 			else:
 				handler = handlers[rollup_request["request_type"]]
 				finish["status"] = handler(rollup_request["data"])
-
-except KeyboardInterrupt:
-	logI(f"{cc.exception}Interrupted by user.{cc.NC}")
-except Exception as ex:
-	logEX(ex)
+	except KeyboardInterrupt as ex_ki:
+		logI(f"{cc.exception}Interrupted by user.{cc.NC}")
+		break
+	except Exception as ex:
+		logEX(ex)
