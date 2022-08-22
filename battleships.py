@@ -93,3 +93,4 @@ while True:
 		break
 	except Exception as ex:
 		logEX(ex)
+		logI(response)
