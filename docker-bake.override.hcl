@@ -2,14 +2,22 @@
 target "dapp" {
 }
 
+variable "TAG" {
+  default = "devel"
+}
+
+variable "DOCKER_ORGANIZATION" {
+  default = "cartesi"
+}
+
 target "server" {
-  tags = ["cartesi/dapp:battleships-devel-server"]
+  tags = ["${DOCKER_ORGANIZATION}/dapp:battleships-${TAG}-server"]
 }
 
 target "console" {
-  tags = ["cartesi/dapp:battleships-devel-console"]
+  tags = ["${DOCKER_ORGANIZATION}/dapp:battleships-${TAG}-console"]
 }
 
 target "machine" {
-  tags = ["cartesi/dapp:battleships-devel-machine"]
+  tags = ["${DOCKER_ORGANIZATION}/dapp:battleships-${TAG}-machine"]
 }
