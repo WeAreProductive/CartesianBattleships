@@ -1,3 +1,4 @@
 .env
-deployments/localhost
+config
+deployments
 __pycache__
