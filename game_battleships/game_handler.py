@@ -4,6 +4,7 @@ from game_battleships.log_dump import *
 from game_battleships.game_logic import *
 #from game_battleships.protocol_text import *
 from game_battleships.protocol_json import *
+from game_battleships.protocol_inspect import *
 
 class BSMessageData:
 	def __init__(self, data):
@@ -44,6 +45,15 @@ class BSGameHandler:
 		dumpPlayerMsg(gameState, cmd, responsePayload)
 		return responsePayload
 
+	def processInspect(self, _gameManager, data):
+		response = None
+		inspect = ProtocolInspect(_gameManager)
+		try:
+			response = inspect.processInspect(data)
+		except Exception as ex:
+			response = inspect.getResponse_error("internal")
+			logEX(ex)
+		return response
 
 	def processSystemCommand(self, _gameState, cmd):
 		if (cmd == "dump-info"):

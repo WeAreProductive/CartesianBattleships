@@ -62,10 +62,12 @@ def handle_advance(data):
 	return status
 
 def handle_inspect(data):
-	logI(f"Received inspect request data {data}")
-	logI("Adding report")
-	response = requests.post(rollup_server + "/report", json={"payload": data["payload"]})
-	logI(f"Received report status {response.status_code}")
+	payload = convertHexBytesToString(getKeySafe(data, "payload", ""))
+	logI(f"{cc.rups_msg}Received inspect request data payload: {payload}{cc.NC}")
+	responsePayload = _gameHandler.processInspect(_gameManager, payload)
+	response = requests.post(rollup_server + "/report", json={"payload": convertStringToHexBytes(responsePayload)})
+	#logI(f'payload: {convertHexBytesToString(getKeySafe(data, "payload", ))}')
+	logI(f"{cc.rups_msg}Received report status {response.status_code}{cc.NC}")
 	return "accept"
 
 handlers = {
@@ -81,13 +83,18 @@ while True:
 		response = requests.post(rollup_server + "/finish", json=finish)
 		if response.status_code != 202:
 			rollup_request = response.json()
-			metadata = rollup_request["data"]["metadata"]
-			if metadata["epoch_index"] == 0 and metadata["input_index"] == 0:
-				rollup_address = metadata["msg_sender"]
-				logI(f"Captured rollup address: {rollup_address}")
-			else:
+			logI(rollup_request)
+			data = getKeySafe(rollup_request, "data")
+			if data is not None:			
+				metadata = getKeySafe(data, "metadata")
+				#metadata = rollup_request["data"]["metadata"]
+				if metadata is not None and metadata["epoch_index"] == 0 and metadata["input_index"] == 0:
+					rollup_address = metadata["msg_sender"]
+					logI(f"Captured rollup address: {rollup_address}")
+					continue
 				handler = handlers[rollup_request["request_type"]]
-				finish["status"] = handler(rollup_request["data"])
+				finish["status"] = handler(data)
+      
 	except KeyboardInterrupt as ex_ki:
 		logI(f"{cc.exception}Interrupted by user.{cc.NC}")
 		break
