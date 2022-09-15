@@ -3,6 +3,10 @@ from game_battleships.utils import *
 #from game_battleships.log_dump import *
 import json
 
+def append(list, item):
+	if item is not None:
+		list.append(json.loads(item))
+ 
 class ProtocolInspect:
 	lastRequest = ""
 
@@ -29,10 +33,12 @@ class ProtocolInspect:
    
 			add_init = False
 			add_moves = False
+			add_end = False
 
 			if opType == "all":
 				add_init = True
 				add_moves = True
+				add_end = True
 
 			if opType == "init":
 				add_init = True
@@ -41,17 +47,24 @@ class ProtocolInspect:
 				add_moves = True
 
 			if opType == "last":
-				if len(gameState.moveHistory) > 0:
-					list.append(json.loads(pr.getResponse_m(gameState, gameState.moveHistory[-1])))
+				if gameState.result == 0:
+					if len(gameState.moveHistory) > 0:
+						append(list, pr.getResponse_m(gameState, gameState.moveHistory[-1]))
+				else:
+					add_end = True
 			
 			if add_init:
-				list.append(json.loads(pr.getResponse_c(gameState, 0))) # TODO: add timeout
-				list.append(json.loads(pr.getResponse_j(gameState, 1)))
-				list.append(json.loads(pr.getResponse_j(gameState, 2)))
+				append(list, pr.getResponse_c(gameState, 0)) # TODO: add timeout
+				append(list, pr.getResponse_j(gameState, 1))
+				append(list, pr.getResponse_j(gameState, 2))
 
 			if add_moves:
 				for m in gameState.moveHistory:
-					list.append(json.loads(pr.getResponse_m(gameState, m)))
+					append(list, pr.getResponse_m(gameState, m))
+
+			if add_end:
+				append(list, pr.getResponse_e(gameState, 1))
+				append(list, pr.getResponse_e(gameState, 2))
 
 			response = json.dumps(list)
 		else:

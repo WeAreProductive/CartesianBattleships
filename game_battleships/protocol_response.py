@@ -27,10 +27,8 @@ class ProtocolResponse:
 
 	def getResponse_j(self, gameState, playerTag):
 		player = gameState.getPlayerByTag(playerTag)
-
 		if player is None:
 			return None
-  
 		data = {
 			"gid": gameState.getGameId(),
 			"cmd": "j",
@@ -39,7 +37,6 @@ class ProtocolResponse:
 			}
 		}
 		self.__addPlayerTag(data, playerTag)
-
 		return json.dumps(data)
 
 	def getResponse_m(self,  gameState, move):
@@ -52,5 +49,21 @@ class ProtocolResponse:
 			}
 		}
 		self.__addPlayerTag(data, move.player)
-		
+		return json.dumps(data)
+
+	def getResponse_e(self, gameState, playerTag):
+		if gameState.result == 0:
+			return None
+		player = gameState.getPlayerByTag(playerTag)
+		if player is None:
+			return None
+		data = {
+			"gid": gameState.getGameId(),
+			"cmd": "e",
+			"arg": {
+				"key": getKeySafe(player.keyCrypt, "key", ""),
+				"result": "win" if gameState.result == playerTag else "defeat"
+			}
+		}
+		self.__addPlayerTag(data, playerTag)
 		return json.dumps(data)
