@@ -48,8 +48,9 @@ class ProtocolInspect:
 
 			if opType == "last":
 				if gameState.result == 0:
-					if len(gameState.moveHistory) > 0:
-						append(list, pr.getResponse_m(gameState, gameState.moveHistory[-1]))
+					indexTurn = len(gameState.moveHistory) - 1
+					if indexTurn >= 0:
+						append(list, pr.getResponse_m(gameState, gameState.moveHistory[-1], indexTurn))
 				else:
 					add_end = True
 			
@@ -59,8 +60,10 @@ class ProtocolInspect:
 				append(list, pr.getResponse_j(gameState, 2))
 
 			if add_moves:
+				indexTurn = 0
 				for m in gameState.moveHistory:
-					append(list, pr.getResponse_m(gameState, m))
+					append(list, pr.getResponse_m(gameState, m, indexTurn))
+					indexTurn += 1
 
 			if add_end:
 				append(list, pr.getResponse_e(gameState, 1))

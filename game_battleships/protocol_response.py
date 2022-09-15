@@ -39,7 +39,7 @@ class ProtocolResponse:
 		self.__addPlayerTag(data, playerTag)
 		return json.dumps(data)
 
-	def getResponse_m(self,  gameState, move):
+	def getResponse_m(self,  gameState, move, indexTurn):
 		data = {
 			"gid": gameState.getGameId(),
 			"cmd": "m",
@@ -48,6 +48,8 @@ class ProtocolResponse:
 				"shot": [ move.mx, move.my ]
 			}
 		}
+		if indexTurn is not None and indexTurn >= 0:
+			data["arg"]["turn"] = indexTurn
 		self.__addPlayerTag(data, move.player)
 		return json.dumps(data)
 
