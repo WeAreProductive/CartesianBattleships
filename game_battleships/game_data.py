@@ -2,47 +2,42 @@ from os import environ
 from game_battleships.utils import *
 
 class BSGameRules:
-	boardSizeX = 10
-	boardSizeY = 10
-	ships = { "5": 1, "4": 1, "3": 2, "2": 2 }
-	#countShip5 = 1 # count of 5pin ships (Carrier)
-	#countShip4 = 1 # count of 4pin ships (Cruiser)
-	#countShip3 = 2 # count of 3pin ships (Submarine)
-	#countShip2 = 2 # count of 2pin ships (Frigate)
-	timeoutTurn = 180 # player turn timeout [minutes]
-#_gameRules = BSGameRules()
 
+	def __init__(self):
+		self.boardSizeX = 10
+		self.boardSizeY = 10
+		self.ships = { "5": 1, "4": 1, "3": 2, "2": 2 }
+		#countShip5 = 1 # count of 5pin ships (Carrier)
+		#countShip4 = 1 # count of 4pin ships (Cruiser)
+		#countShip3 = 2 # count of 3pin ships (Submarine)
+		#countShip2 = 2 # count of 2pin ships (Frigate)
+		self.timeoutTurn = 180 # player turn timeout [minutes]
+		#_gameRules = BSGameRules()
 
 class BSPlayer:
-	Id = ""
-	tag = 0
-	keyCrypt = None
-	boardCrypt = None
-	board = None
+ 
 	def __init__(self, _gameRules, Id, tag):
-		self.Id = str(Id).lower()
-		self.tag = tag
-		self.board = [ [ 0 for ix in range(_gameRules.boardSizeX) ] for iy in range(_gameRules.boardSizeY) ]
+		self.Id = str(Id).lower() # default ""
+		self.tag = tag # default 0
+		self.keyCrypt = None # default None
+		self.boardCrypt = None # default None
+		self.board = [ [ 0 for ix in range(_gameRules.boardSizeX) ] for iy in range(_gameRules.boardSizeY) ] # default None
 
 class BSGameMove:
-	player = 0
-	wasHit = 0
-	mx = -1
-	my = -1
+
 	def __init__(self, player, wasHit, mx, my):
-		self.player = convertToInt(player) ; self.wasHit = convertToInt(wasHit) ; self.mx = convertToInt(mx) ; self.my = convertToInt(my)
+		self.player = convertToInt(player) # default 0
+		self.wasHit = convertToInt(wasHit) # default 0
+		self.mx = convertToInt(mx) # default -1
+		self.my = convertToInt(my) # default -1
 
 class GameDescriptor:
-	gameId = ""
-	owner = ""
-	tokenCreate = ""
-	invite = []
 
 	def __init__(self, gameId, owner, tokenCreate, invite):
-		self.gameId = str(gameId)
-		self.owner = str(owner)
-		self.tokenCreate = str(tokenCreate)
-		self.invite = invite
+		self.gameId = str(gameId) # default ""
+		self.owner = str(owner) # default ""
+		self.tokenCreate = str(tokenCreate) # default ""
+		self.invite = invite # default []
 
 class BSGameStateBase:
 	def getGameId(self): return self.descriptor.gameId
