@@ -112,3 +112,17 @@ def dumpAll(_gameState):
 	dumpGamePlayers(_gameState)
 	dumpGameplayBoards(_gameState)
 	dumpGameplayMoves(_gameState)
+
+def dumpGameList(gameManager, showBoards, showMoves):
+	games = gameManager.getGames()
+	pos = 0
+	for game in games:
+		logI(f"{cc.sep}===== Game #{pos} >>> ====={cc.NC}")
+		dumpGameInfo(game, False)
+		if showBoards:
+			dumpGameplayBoards(game, False)
+		if showMoves:
+			dumpGameplayMoves(game, False)
+		logI(f"{cc.sep}===== Game #{pos} <<< ====={cc.NC}")
+		pos += 1
+
