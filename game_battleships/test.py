@@ -2,6 +2,7 @@ from game_battleships.utils import *
 from game_battleships.log import *
 
 class BSTest:
+
 	def __init__(self, _gameManager, _gameHandler):
 		self._gameManager = _gameManager
 		self._gameHandler = _gameHandler
@@ -96,11 +97,34 @@ class BSTest:
 		gid1 = "1"
 		gid2 = "2"
 		gid3 = "3"
+		gid4 = "4"
 
 		#self.send("", 1, '{"cmd":"c", "sys": { "reqId": "111", "invite": ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8"] }, "arg": { "rules":{"size":[15, 15] } } }')
-		self.send("", 1, '{"cmd":"c", "sys": { "reqId": "111", "invite": ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8"] }, "arg": { "rules":{"size":[15] } } }')
+		self.send(gid1, 1, '{"cmd":"c", "sys": { "reqId": "111", "invite": ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8"] }, "arg": { "rules":{"size":[15] } } }')
+		self.send(gid2, 1, '{"cmd":"c", "sys": { "reqId": "222", "invite": ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8"] }, "arg": { "rules":{"size":[15] } } }')
+		self.send(gid3, 1, '{"cmd":"c", "sys": { "reqId": "333", "invite": ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8"] }, "arg": { "rules":{"size":[15] } } }')
+		self.send(gid4, 1, '{"cmd":"c", "sys": { "reqId": "444", "invite": ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8"] }, "arg": { "rules":{"size":[15] } } }')
 
 		self.send(gid1, 1, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
 		self.send(gid1, 2, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
 
-		self.send(gid1, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [12, 12] } }')
+		self.send(gid2, 1, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
+		self.send(gid2, 2, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
+
+		self.send(gid3, 1, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
+		self.send(gid3, 2, '{"gid":"#gid", "cmd":"j", "arg":{ "board":"***" } }')
+
+		self.send(gid1, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [1, 1] } }')
+		self.send(gid1, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [2, 2] } }')
+		self.send(gid1, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [3, 3] } }')
+		self.send(gid1, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [4, 4] } }')
+
+		self.send(gid2, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [4, 2] } }')
+		self.send(gid2, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [6, 3] } }')
+
+		self.send(gid3, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [1, 1] } }')
+		self.send(gid3, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [2, 1] } }')
+		self.send(gid3, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [3, 1] } }')
+
+		self.send(gid1, 1, '{"gid":"#gid", "cmd":"e", "arg":{ "key": "reveal" } }')
+		self.send(gid1, 2, '{"gid":"#gid", "cmd":"e", "arg":{ "key": "reveal2" } }')
