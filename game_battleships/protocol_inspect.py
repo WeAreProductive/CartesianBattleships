@@ -8,14 +8,14 @@ def append(list, item):
 		list.append(json.loads(item))
  
 class ProtocolInspect:
-	lastRequest = ""
 
 	def __init__(self, _gameManager):
 		self._gameManager = _gameManager
+		self.__lastRequest = ""
 
 	def processInspect(self, data):
 		response = ""
-		self.lastRequest = data
+		self.__lastRequest = data
 		if isinstance(data, str):
 			parts = data.split("/")
 			if len(parts) == 3 and parts[0] == "game":
@@ -88,12 +88,12 @@ class ProtocolInspect:
 
 	def getResponse_error(self, msg):
 		data = {}
-		data["req"] = self.lastRequest
+		data["req"] = self.__lastRequest
 		data["error"] = msg
 		return json.dumps(data)
 
 	def getResponse_ok(self):
 		data = {}
-		data["req"] = self.lastRequest
+		data["req"] = self.__lastRequest
 		data["status"] = "ok"
 		return json.dumps(data)

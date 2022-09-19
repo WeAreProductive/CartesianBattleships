@@ -3,12 +3,11 @@ from game_battleships.game_defaults import *
 from game_battleships.errors import *
 
 class BSGameManager:
-	__games = []
-	__defaults = GameDefaults()
-	__seedGameId = 0
 
 	def __init__(self):
-		pass
+		self.__games = []
+		self.__defaults = GameDefaults()
+		self.__seedGameId = 0
 
 	def getGame(self, gameId):
 		for g in self.__games:

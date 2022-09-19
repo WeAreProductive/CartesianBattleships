@@ -68,15 +68,14 @@ from game_battleships.utils import *
 import json
 
 class Command:
-	messageData = None
-	gameId = ""
-	playerTag = 0
-	cmdType = ""
-	cmdArgs = ""
-	cmdSys = ""
 
 	def __init__(self, messageData):
-		self.messageData = messageData
+		self.messageData = messageData # default None
+		self.gameId = ""
+		self.playerTag = 0
+		self.cmdType = ""
+		self.cmdArgs = ""
+		self.cmdSys = ""
 		self.__parsePayload()
 	
 	def getSender(self):
