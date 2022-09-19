@@ -5,7 +5,7 @@ from game_battleships.log import *
 def __aliasPlayer(player):
 	return player.Id if player is not None  else "None"
 
-def dumpGameInfo(_gameState, spacers = True):
+def dumpGameInfo(_gameState, spacers = True, showPlayers = True):
 	if _gameState is None: return
 	_gameRules = _gameState._gameRules
 	if spacers: logI(f"{cc.sep}===== Game Info >>> ====={cc.NC}")
@@ -14,10 +14,11 @@ def dumpGameInfo(_gameState, spacers = True):
 	# TODO: log ships
 	#logI(f"Ships on board:{cc.NC} {_gameRules.countShip5} 5pin (Carrier), {_gameRules.countShip4} 4pin (Cruiser), {_gameRules.countShip3} 3pin (Submarine), {_gameRules.countShip2} 2pin (Frigate)")
 	logI(f"Player turn timeout:{cc.NC} {_gameRules.timeoutTurn} minutes")
-	logI(f"Player 1 ID: {cc.id}{__aliasPlayer(_gameState.player1)}{cc.NC}")
-	logI(f"Player 2 ID: {cc.id}{__aliasPlayer(_gameState.player2)}{cc.NC}")
 	logI(f"Game status: {_gameState.status}")
 	logI(f"Game result: {_gameState.result}")
+	if showPlayers:
+		logI(f"Player 1 ID: {cc.id}{__aliasPlayer(_gameState.player1)}{cc.NC}")
+		logI(f"Player 2 ID: {cc.id}{__aliasPlayer(_gameState.player2)}{cc.NC}")
 	if spacers: logI(f"{cc.sep}===== Game Info <<< ====={cc.NC}")
 
 def dumpArray2D(arr):
@@ -27,12 +28,17 @@ def dumpArray2D(arr):
 def dumpGamePlayers(_gameState, spacers = True):
 	if _gameState is None: return
 	if spacers: logI(f"{cc.sep}===== Game Players >>> ====={cc.NC}")
-	logI(f"Player 1 ID: {cc.id}{_gameState.player1.Id}{cc.NC}")
-	logI(f"Player 1 boardCrypt: {cc.data}{_gameState.player1.boardCrypt}{cc.NC}")
-	logI(f"Player 1 keyCrypt: {cc.secret}{_gameState.player1.keyCrypt}{cc.NC}")
-	logI(f"Player 2 ID: {cc.LightPurple}{_gameState.player2.Id}{cc.NC}")
-	logI(f"Player 2 boardCrypt: {cc.data}{_gameState.player2.boardCrypt}{cc.NC}")
-	logI(f"Player 2 keyCrypt: {cc.secret}{_gameState.player2.keyCrypt}{cc.NC}")
+ 
+	logI(f"Player 1 ID: {cc.id}{__aliasPlayer(_gameState.player1)}{cc.NC}")
+	if _gameState.player1 is not None:
+		logI(f"Player 1 boardCrypt: {cc.data}{_gameState.player1.boardCrypt}{cc.NC}")
+		logI(f"Player 1 keyCrypt: {cc.secret}{_gameState.player1.keyCrypt}{cc.NC}")
+
+	logI(f"Player 2 ID: {cc.LightPurple}{__aliasPlayer(_gameState.player2)}{cc.NC}")
+	if _gameState.player2 is not None:
+		logI(f"Player 2 boardCrypt: {cc.data}{_gameState.player2.boardCrypt}{cc.NC}")
+		logI(f"Player 2 keyCrypt: {cc.secret}{_gameState.player2.keyCrypt}{cc.NC}")
+
 	if spacers: logI(f"{cc.sep}===== Game Players <<< ====={cc.NC}")
 
 def dumpGameplayBoards(_gameState, spacers = True):
@@ -116,11 +122,13 @@ def dumpAll(_gameState):
 	dumpGameplayBoards(_gameState)
 	dumpGameplayMoves(_gameState)
 
-def dumpGameList(games, showBoards, showMoves):
+def dumpGameList(games, showPlayers, showPlayersDetails, showBoards, showMoves):
 	pos = 0
 	for game in games:
 		logI(f"{cc.sep}===== Game #{pos} >>> ====={cc.NC}")
-		dumpGameInfo(game, False)
+		dumpGameInfo(game, False, showPlayers)
+		if showPlayersDetails:
+			dumpGamePlayers(game, False)
 		if showBoards:
 			dumpGameplayBoards(game, False)
 		if showMoves:

@@ -98,10 +98,13 @@ class ProtocolInspect:
 					if game.getGameId() in gameIds:
 						games.append(game)
 
-			showBoards = len(parts) > 3 and "boards" in parts[3]
-			showMoves = len(parts) > 3 and "moves" in parts[3]
+			isFull = len(parts) > 3 and "full" in parts[3]
+			showPlayers = not isFull and (len(parts) > 3 and "players" in parts[3])
+			showPlayersDetails = isFull or (len(parts) > 3 and "players-details" in parts[3])
+			showBoards = isFull or (len(parts) > 3 and "boards" in parts[3])
+			showMoves = isFull or (len(parts) > 3 and "moves" in parts[3])
 
-			dumpGameList(games, showBoards, showMoves)
+			dumpGameList(games, showPlayers, showPlayersDetails, showBoards, showMoves)
 
 		return self.getResponse_ok()
 
