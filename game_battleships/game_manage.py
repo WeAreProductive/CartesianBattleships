@@ -13,7 +13,10 @@ class BSGameManager:
 	def getGame(self, gameId):
 		for g in self.__games:
 			if g.gameId == gameId: return g
-	
+
+	def getGames(self):
+		return self.__games
+
 	def __generateGameId(self, messageData):
 		self.__seedGameId += 1
 		serverId = self.__defaults.serverId
