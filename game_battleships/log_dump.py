@@ -116,8 +116,7 @@ def dumpAll(_gameState):
 	dumpGameplayBoards(_gameState)
 	dumpGameplayMoves(_gameState)
 
-def dumpGameList(gameManager, showBoards, showMoves):
-	games = gameManager.getGames()
+def dumpGameList(games, showBoards, showMoves):
 	pos = 0
 	for game in games:
 		logI(f"{cc.sep}===== Game #{pos} >>> ====={cc.NC}")

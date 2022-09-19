@@ -79,10 +79,29 @@ class ProtocolInspect:
 
 	def processInspect_dump(self, parts):
 
-		if parts[1] == "game" and parts[2] == "list":
-			showBoards = len(parts) > 3 and "boards" in parts[3] 
-			showMoves = len(parts) > 3 and "moves" in parts[3] 
-			dumpGameList(self._gameManager, showBoards, showMoves)
+		if parts[1] == "games-list":
+
+			games = []
+			if parts[2] == "all":
+				games = self._gameManager.getGames()
+			elif parts[2] == "active":
+				for game in self._gameManager.getGames():
+					if game.status != 3:
+						games.append(game)
+			elif parts[2] == "finished":
+				for game in self._gameManager.getGames():
+					if game.status == 3:
+						games.append(game)
+			else:
+				gameIds = parts[2].split(",")
+				for game in self._gameManager.getGames():
+					if game.getGameId() in gameIds:
+						games.append(game)
+
+			showBoards = len(parts) > 3 and "boards" in parts[3]
+			showMoves = len(parts) > 3 and "moves" in parts[3]
+
+			dumpGameList(games, showBoards, showMoves)
 
 		return self.getResponse_ok()
 
