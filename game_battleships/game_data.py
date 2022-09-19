@@ -63,17 +63,16 @@ class BSGameStateBase:
 		self.gameId = descriptor.gameId
 
 class BSGameState(BSGameStateBase):
-	_gameRules = None
-	player1 = None
-	player2 = None
-	moveHistory = []
-	status = 0 # 0 - waiting for players to be ready, 1 - waiting move from player 1, 2 - waiting move from player 2, 3 - game ending
-	result = 0 # 0 - to be decided, 1 - player 1 is winner, 2 - player 2 is winner
-	# TODO: status for cheating
 	
 	def __init__(self, descriptor, _gameRules):
 		super().__init__(descriptor)
 		self._gameRules = _gameRules
+		self.player1 = None
+		self.player2 = None
+		self.moveHistory = []
+		self.status = 0 # 0 - waiting for players to be ready, 1 - waiting move from player 1, 2 - waiting move from player 2, 3 - game ending
+		self.result = 0 # 0 - to be decided, 1 - player 1 is winner, 2 - player 2 is winner
+		# TODO: status for cheating
 	
 	def getPlayerByTag(self, playerTag):
 		if playerTag == 1:
