@@ -1,7 +1,7 @@
+import json
 from game_battleships.protocol_response import ProtocolResponse
 from game_battleships.utils import *
 from game_battleships.log_dump import *
-import json
 
 def append(list, item):
 	if item is not None:
