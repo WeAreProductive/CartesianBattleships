@@ -2,6 +2,9 @@ from logging import log
 from game_battleships.console import *
 from game_battleships.log import *
 
+def __aliasPlayer(player):
+	return player.Id if player is not None  else "None"
+
 def dumpGameInfo(_gameState, spacers = True):
 	if _gameState is None: return
 	_gameRules = _gameState._gameRules
@@ -11,8 +14,8 @@ def dumpGameInfo(_gameState, spacers = True):
 	# TODO: log ships
 	#logI(f"Ships on board:{cc.NC} {_gameRules.countShip5} 5pin (Carrier), {_gameRules.countShip4} 4pin (Cruiser), {_gameRules.countShip3} 3pin (Submarine), {_gameRules.countShip2} 2pin (Frigate)")
 	logI(f"Player turn timeout:{cc.NC} {_gameRules.timeoutTurn} minutes")
-	logI(f"Player 1 ID: {cc.id}{_gameState.player1.Id}{cc.NC}")
-	logI(f"Player 2 ID: {cc.id}{_gameState.player2.Id}{cc.NC}")
+	logI(f"Player 1 ID: {cc.id}{__aliasPlayer(_gameState.player1)}{cc.NC}")
+	logI(f"Player 2 ID: {cc.id}{__aliasPlayer(_gameState.player2)}{cc.NC}")
 	logI(f"Game status: {_gameState.status}")
 	logI(f"Game result: {_gameState.result}")
 	if spacers: logI(f"{cc.sep}===== Game Info <<< ====={cc.NC}")
