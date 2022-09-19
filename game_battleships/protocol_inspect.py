@@ -1,6 +1,6 @@
 from game_battleships.protocol_response import ProtocolResponse
 from game_battleships.utils import *
-#from game_battleships.log_dump import *
+from game_battleships.log_dump import *
 import json
 
 def append(list, item):
@@ -20,6 +20,8 @@ class ProtocolInspect:
 			parts = data.split("/")
 			if len(parts) == 3 and parts[0] == "game":
 				response = self.processInspect_game(parts[1], parts[2])
+			if parts[0] == "dump":
+				response = self.processInspect_dump(parts)
 		return response
 
 	def processInspect_game(self, opType, gameId):
@@ -30,7 +32,7 @@ class ProtocolInspect:
 			
 			pr = ProtocolResponse()
 			list = []
-   
+
 			add_init = False
 			add_moves = False
 			add_end = False
@@ -75,8 +77,23 @@ class ProtocolInspect:
 
 		return response
 
+	def processInspect_dump(self, parts):
+
+		if parts[1] == "game" and parts[2] == "list":
+			showBoards = len(parts) > 3 and "boards" in parts[3] 
+			showMoves = len(parts) > 3 and "moves" in parts[3] 
+			dumpGameList(self._gameManager, showBoards, showMoves)
+
+		return self.getResponse_ok()
+
 	def getResponse_error(self, msg):
 		data = {}
 		data["req"] = self.lastRequest
 		data["error"] = msg
+		return json.dumps(data)
+
+	def getResponse_ok(self):
+		data = {}
+		data["req"] = self.lastRequest
+		data["status"] = "ok"
 		return json.dumps(data)
