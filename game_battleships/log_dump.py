@@ -136,3 +136,10 @@ def dumpGameList(games, showPlayers, showPlayersDetails, showBoards, showMoves):
 		logI(f"{cc.sep}===== Game #{pos} <<< ====={cc.NC}")
 		pos += 1
 
+def dumpGameDefaults(gameDefaults):
+	logI(f"{cc.sep}===== Server Defaults >>> ====={cc.NC}")
+	logI(f"SERVER_ID: {cc.id}{gameDefaults.serverId}{cc.NC}")
+	logI(f"LIMIT_GAMES_ALL: {cc.id}{gameDefaults.limitGamesAll}{cc.NC}")
+	logI(f"LIMIT_GAMES_OWNER: {cc.id}{gameDefaults.limitGamesOwner}{cc.NC}")
+	logI(f"TIMEOUT_GAME: {cc.id}{gameDefaults.timeoutGame}{cc.NC}")
+	logI(f"{cc.sep}===== Server Defaults <<< ====={cc.NC}")

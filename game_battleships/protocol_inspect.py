@@ -106,6 +106,9 @@ class ProtocolInspect:
 
 			dumpGameList(games, showPlayers, showPlayersDetails, showBoards, showMoves)
 
+		if parts[1] == "server-defaults":
+			dumpGameDefaults(self._gameManager.getDefaults())
+
 		return self.getResponse_ok()
 
 	def getResponse_error(self, msg):
