@@ -9,6 +9,9 @@ class BSGameManager:
 		self.__defaults = GameDefaults()
 		self.__seedGameId = 0
 
+	def getDefaults(self):
+		return self.__defaults
+
 	def getGame(self, gameId):
 		for g in self.__games:
 			if g.gameId == gameId: return g
