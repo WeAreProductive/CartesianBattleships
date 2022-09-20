@@ -8,6 +8,6 @@ class GameDefaults:
 	def __init__(self):
 		self.serverId = environ.get("SERVER_ID")
 		if self.serverId is None: self.serverId = ""
-		self.limitGamesAll = convertToInt(environ.get("LIMIT_GAMES_ALL"), -1)
-		self.limitGamesOwner = convertToInt(environ.get("LIMIT_GAMES_OWNER"), -1)
-		self.timeoutGame = convertToInt(environ.get("TIMEOUT_GAME"), -1)
+		self.limitGamesAll = convertToInt(environ.get("LIMIT_GAMES_ALL"), -1) # maximum count of games
+		self.limitGamesOwner = convertToInt(environ.get("LIMIT_GAMES_OWNER"), -1) # maximum count of games per creator
+		self.timeoutGame = convertToInt(environ.get("TIMEOUT_GAME"), -1) # default game timeout
