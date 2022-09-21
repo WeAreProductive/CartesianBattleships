@@ -68,8 +68,10 @@ class ProtocolInspect:
 					indexTurn += 1
 
 			if add_end:
-				append(list, pr.getResponse_e(gameState, 1))
-				append(list, pr.getResponse_e(gameState, 2))
+				pW = gameState.result # winner player tag
+				pD = gameState.getOpponentTag(pW) # defeated player tag
+				append(list, pr.getResponse_e(gameState, pD))
+				append(list, pr.getResponse_e(gameState, pW))
 
 			response = json.dumps(list)
 		else:
