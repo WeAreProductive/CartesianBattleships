@@ -81,7 +81,9 @@ class BSGameState(BSGameStateBase):
 		return 0
 	
 	def getOpponentTag(self, player):
-		return 2 if (player == 1) else 1
+		if player == 1: return 2
+		if player == 2: return 1
+		return 0
 
 	def getLastMove(self):
 		return self.moveHistory[-1] if len(self.moveHistory) > 0 else None
