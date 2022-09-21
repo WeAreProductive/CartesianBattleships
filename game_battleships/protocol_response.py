@@ -63,7 +63,7 @@ class ProtocolResponse:
 			"gid": gameState.getGameId(),
 			"cmd": "e",
 			"arg": {
-				"key": getKeySafe(player.keyCrypt, "key", ""),
+				"key": player.keyCrypt,
 				"result": "win" if gameState.result == playerTag else "defeat"
 			}
 		}
