@@ -57,7 +57,7 @@ class ProtocolResponse:
 		if gameState.result == 0:
 			return None
 		player = gameState.getPlayerByTag(playerTag)
-		if player is None:
+		if player is None or player.keyCrypt is None:
 			return None
 		data = {
 			"gid": gameState.getGameId(),
