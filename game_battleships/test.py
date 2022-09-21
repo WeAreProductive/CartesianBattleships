@@ -118,6 +118,7 @@ class BSTest:
 		self.send(gid1, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [2, 2] } }')
 		self.send(gid1, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [3, 3] } }')
 		self.send(gid1, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [4, 4] } }')
+		self.send(gid1, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [5, 5] } }')
 
 		self.send(gid2, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [4, 2] } }')
 		self.send(gid2, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [6, 3] } }')
@@ -126,5 +127,5 @@ class BSTest:
 		self.send(gid3, 2, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [2, 1] } }')
 		self.send(gid3, 1, '{"gid":"#gid", "cmd":"m", "arg":{ "shot": [3, 1] } }')
 
-		self.send(gid1, 1, '{"gid":"#gid", "cmd":"e", "arg":{ "key": "reveal" } }')
-		self.send(gid1, 2, '{"gid":"#gid", "cmd":"e", "arg":{ "key": "reveal2" } }')
+		self.send(gid1, 2, '{"gid":"#gid", "cmd":"e", "arg":{ "key": "reveal" } }')
+		self.send(gid1, 1, '{"gid":"#gid", "cmd":"e", "arg":{ "key": "reveal2" } }')
