@@ -27,9 +27,9 @@ class ProtocolInspect:
 		self.__lastRequest = data
 		if isinstance(data, str):
 			parts = data.split("/")
-			if len(parts) == 3 and parts[0] == "game":
+			if parts[0] == "game" and len(parts) == 3:
 				response = self.processInspect_game(parts[1], parts[2])
-			if parts[0] == "dump":
+			if parts[0] == "dump" and len(parts) > 2:
 				response = self.processInspect_dump(parts)
 		return response
 
