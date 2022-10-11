@@ -1,3 +1,12 @@
+# game/init/<gameId>
+# game/moves/<gameId>
+# game/all/<gameId>
+# game/last/<gameId>
+#
+# dump/games-list/<filter>/<details>
+# 	<filter> - comma (,) separated list of game IDs, or one of: all, active, finished
+# 	<details> - can contain (separator does not matter): players, players-details, boards, moves, full
+
 import json
 from game_battleships.protocol_response import ProtocolResponse
 from game_battleships.utils import *
