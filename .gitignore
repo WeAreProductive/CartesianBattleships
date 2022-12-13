@@ -2,3 +2,4 @@
 config
 deployments
 __pycache__
+def-*
