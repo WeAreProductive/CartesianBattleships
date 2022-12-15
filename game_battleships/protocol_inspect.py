@@ -3,7 +3,7 @@
 # game/<gameId>/all
 # game/<gameId>/last
 #
-# <gameId> is "gameId" or "id=gameId" or "req=requestId"
+# <gameId> is "gameId" or "id=gameId" or "req=requestId@owner"
 #
 # dump/games-list/<filter>/<details>
 # 	<filter> - comma (,) separated list of game IDs, or one of: all, active, finished
@@ -35,9 +35,21 @@ class ProtocolInspect:
 				response = self.processInspect_dump(parts)
 		return response
 
-	def processInspect_game(self, gameId, opType):
+	def findGame(self, gameSearchQuery):
+		parts = gameSearchQuery.split("=")
+		if len(parts) == 1:
+			return self._gameManager.getGame(parts[0])
+		if len(parts) == 2:
+			if (parts[0] == "id"):
+				return self._gameManager.getGame(parts[1])
+			if (parts[0] == "req"):
+				return self._gameManager.getGame_byReqId(parts[1])
+		return None
+	
+
+	def processInspect_game(self, gameSearchQuery, opType):
 		response = ""
-		gameState = self._gameManager.getGame(gameId)
+		gameState = self.findGame(gameSearchQuery)
 
 		if gameState is not None:
 			
