@@ -33,6 +33,7 @@ class ProtocolInspect:
 				response = self.processInspect_game(parts[1], parts[2])
 			if parts[0] == "dump" and len(parts) > 2:
 				response = self.processInspect_dump(parts)
+		logI(response)
 		return response
 
 	def findGame(self, gameSearchQuery):
