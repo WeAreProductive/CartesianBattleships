@@ -1,7 +1,9 @@
-# game/init/<gameId>
-# game/moves/<gameId>
-# game/all/<gameId>
-# game/last/<gameId>
+# game/<gameId>/init
+# game/<gameId>/moves
+# game/<gameId>/all
+# game/<gameId>/last
+#
+# <gameId> is "gameId" or "id=gameId" or "req=requestId"
 #
 # dump/games-list/<filter>/<details>
 # 	<filter> - comma (,) separated list of game IDs, or one of: all, active, finished
@@ -33,7 +35,7 @@ class ProtocolInspect:
 				response = self.processInspect_dump(parts)
 		return response
 
-	def processInspect_game(self, opType, gameId):
+	def processInspect_game(self, gameId, opType):
 		response = ""
 		gameState = self._gameManager.getGame(gameId)
 
