@@ -16,6 +16,14 @@ class BSGameManager:
 		for g in self.__games:
 			if g.gameId == gameId: return g
 
+	def getGame_byReqId(self, req):
+		parts = req.split("@")
+		if len(parts) == 2:
+			reqId = parts[0]
+			reqSender = parts[1]
+			for g in self.__games:
+				if g.getGameTokenCreate() == reqId and g.getGameOwner() == reqSender: return g
+
 	def getGames(self):
 		return self.__games
 
