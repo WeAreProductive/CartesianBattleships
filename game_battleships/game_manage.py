@@ -22,7 +22,7 @@ class BSGameManager:
 			reqId = parts[0]
 			reqSender = parts[1]
 			for g in self.__games:
-				if g.getGameTokenCreate() == reqId and g.getGameOwner() == reqSender: return g
+				if g.getGameTokenCreate() == reqId and g.getGameOwner().lower() == reqSender.lower(): return g
 
 	def getGames(self):
 		return self.__games
